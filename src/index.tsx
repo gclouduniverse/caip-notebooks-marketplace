@@ -1,3 +1,3 @@
-/// <reference path="App.tsx" />
-
-ReactDOM.render(<App />, document.getElementById("root"));
+import 'bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import * as firebaseui from 'firebaseui'
