@@ -1,7 +1,5 @@
 {
     "compilerOptions": {
-      // Allow importing like `import React from 'react'`
-      "allowSyntheticDefaultImports": true,
 
       // No module system, concatenated file
       "module": "none",
@@ -13,7 +11,17 @@
       "lib": ["es2015", "dom", "dom.iterable"],
   
       // Include module source maps for debugging
-      "sourceMap": true
-    }
+      "sourceMap": true,
+
+      "moduleResolution": "node",
+
+      "jsx": "preserve"
+    },
+      
+    "include": [
+      "**/*.ts",
+      "**/*.tsx",
+      "**/*.js"
+    ]
   }
   

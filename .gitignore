@@ -1,2 +1,5 @@
-dist/
 node_modules/
+public/dist/
+.firebase/
+firebase-debug.log
+.firebaserc

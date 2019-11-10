@@ -14,7 +14,8 @@ module.exports = {
   // Where to compile the bundle
   // By default the output directory is `dist`
   output: {
-    filename: "bundle.js"
+    filename: "bundle.js",
+    path: __dirname + '/public/dist',
   },
 
   // Supported file loaders
