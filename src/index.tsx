@@ -2,10 +2,11 @@ import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import * as firebase from "firebase/app";
-import { GcpAuthHelper } from "./GcpAuthHelper";
+import { GcpAuthHelper, API_KEY } from "./GcpAuthHelper";
+import { DeployController } from "./DeployController";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBTT0Ux3VVjAINFqHO6Qa0b1qP_Rdd7H5c",
+    apiKey: API_KEY,
     authDomain: "caip-notebooks-marketplace.firebaseapp.com",
     databaseURL: "https://caip-notebooks-marketplace.firebaseio.com",
     projectId: "caip-notebooks-marketplace",
@@ -17,33 +18,18 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-// class GoogleComputeClient {
+function assignDeployButtons() {
+    const deployController = new DeployController(API_KEY);
 
-//     constructor() {
-//         let btn = document.getElementById("testBtn");
-//         btn.addEventListener("click", (e:Event) => this.onProjectsClick());
-//     }
+    document
+        .getElementById("deployFastAi")
+        .addEventListener("click",
+                         (e:Event) => deployController.showDeployDialog());
 
-//     onProjectsClick() {
-        
-//         alert(Cookies.get('token'));
-//         var request: gapi.client.HttpRequest<any> = gapi.client.request(
-//               {
-//                   "path": "https://compute.googleapis.com/compute/v1/projects/trading-systems-252219/zones/us-west1-b/instances",
-//                   "method": "GET",
-//                   "headers": {
-//                     "Authorization": "Bearer " + Cookies.get('token'),
-//                     "Accept": "application/json"
-//                   }
-//               }
-//           );
-//           request.execute((jsonResp) => {
-//               alert(jsonResp);
-//           });
-//     }
-
-// }
+                
+}
 
 window.onload = function() {
     GcpAuthHelper.getInstance();
+    assignDeployButtons();
 };

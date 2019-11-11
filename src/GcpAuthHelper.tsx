@@ -7,6 +7,10 @@ import * as Cookies from 'es-cookie';
 import * as firebase from "firebase/app";
 import "firebase/auth";
 
+export const API_KEY = "";
+
+declare var gapi: any;
+
 
 export class GcpAuthHelper {
 
@@ -15,6 +19,7 @@ export class GcpAuthHelper {
     private signOutBtn: HTMLElement;
     private userNameLabel: HTMLElement;
     private authProvider: firebase.auth.GoogleAuthProvider = new firebase.auth.GoogleAuthProvider();
+    private googleAuth: any;
 
     private constructor() {
         this.signInBtn = document.getElementById(SIGN_IN_BTN_ID);
@@ -26,6 +31,23 @@ export class GcpAuthHelper {
         this.userNameLabel = document.getElementById(USER_NAME_LABEL_ID);
 
         this.authProvider.addScope("https://www.googleapis.com/auth/compute");
+        this.authProvider.addScope("https://www.googleapis.com/auth/cloud-platform.read-only");
+    }
+
+    private initAuth() {
+        gapi.load("client:auth2", () => {
+            gapi.client.init({
+                "apiKey": API_KEY,
+                "clientId": "619676931792-tuq9skcpv2aal08bgr9d644vt0f2iqg5.apps.googleusercontent.com",
+                "scope": "https://www.googleapis.com/auth/compute https://www.googleapis.com/auth/cloud-platform.read-only",
+                "discoveryDocs": ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"]
+            }).then(() => {
+                console.log(1111);
+                this.googleAuth = gapi.auth2.getAuthInstance();
+            }, (e) => {
+                console.log(e);
+            });
+        });
     }
 
     public static getInstance(): GcpAuthHelper {
@@ -37,12 +59,36 @@ export class GcpAuthHelper {
     }
 
     public isUserSignedIn(): boolean {
+        if (!this.googleAuth) {
+            return this.isFirebaseSignedIn();
+        }
+        return this.isGapiSignedIn() && this.isFirebaseSignedIn();
+    }
+
+    private isGapiSignedIn(): boolean {
+        if (!!this.googleAuth) {
+            return !!this.googleAuth.isSignedIn.get();
+        } else {
+            return false;
+        }
+    }
+
+    private isFirebaseSignedIn(): boolean {
         return !!firebase.auth().currentUser;
     }
 
     public getAuthToken(): string {
         if (this.isUserSignedIn()) {
-            return Cookies.get(TOKEN_COOKIE_NAME);
+            // firebase.auth().currentUser.getIdToken(/* forceRefresh */ true).then(function(idToken) {
+            //     // Send token to your backend via HTTPS
+            //     // ...
+            //     console.log("correct token: " + idToken);
+            //   }).catch(function(error) {
+            //     console.log("error token: " + error);
+            //   });
+            //   console.log("cookie's token: " + Cookies.get(TOKEN_COOKIE_NAME));
+            //   return Cookies.get(TOKEN_COOKIE_NAME);
+            return this.googleAuth.currentUser.get().getAuthResponse().access_token
         }
         return null;
     }
@@ -50,38 +96,136 @@ export class GcpAuthHelper {
     public signOut(): void {
         Cookies.remove(TOKEN_COOKIE_NAME);
         firebase.auth().signOut();
+        const GoogleAuth = gapi.auth2.getAuthInstance();
+        GoogleAuth.signOut();
+        this.onSignedOut();
+    }
+
+    private signInFirebase() {
+        const accessToken: string = this.googleAuth.currentUser.get().getAuthResponse().access_token;
+        var cred = firebase.auth.GoogleAuthProvider.credential(null, accessToken);
+        firebase.auth().signInWithCredential(cred);
     }
 
     public signIn(): void {
-        firebase.auth().signInWithPopup(this.authProvider).then(function(result: firebase.auth.UserCredential) {
-            // This gives you a Google Access Token. You can use it to access the Google API.
-            const credentials: firebase.auth.OAuthCredential = result.credential;
-            var token: string = credentials.accessToken;
-            // The signed-in user info.
-            var user: firebase.User = result.user;
-            Cookies.set(TOKEN_COOKIE_NAME, token);
-            alert(token);
-        }).catch(function(error) {
-            // Handle Errors here.
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            // The email of the user's account used.
-            var email = error.email;
-            // The firebase.auth.AuthCredential type that was used.
-            var credential = error.credential;
-            alert(errorMessage);
-        });
+        // if (!this.isGapiSignedIn()) {
+        //     if (!!this.googleAuth) {
+        //         this.googleAuth.signIn().then(() => {
+        //             if (!this.isFirebaseSignedIn()) {
+        //                 this.signInFirebase();
+        //             }
+        //         });
+        //     } else {
+        //         this.initAuth(() => {
+        //             this.googleAuth.signIn().then(() => {
+        //                 if (!this.isFirebaseSignedIn()) {
+        //                     this.signInFirebase();
+        //                 }
+        //             });
+        //         });
+        //     }
+        // } else {
+        //     if (!this.isFirebaseSignedIn()) {
+        //         this.signInFirebase();
+        //     }
+        // }
+        gapi.load('client:auth2', () => {
+            gapi.client.init({
+                "apiKey": API_KEY,
+                "clientId": "619676931792-tuq9skcpv2aal08bgr9d644vt0f2iqg5.apps.googleusercontent.com",
+                "scope": "https://www.googleapis.com/auth/compute https://www.googleapis.com/auth/cloud-platform.read-only",
+                "discoveryDocs": ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"]
+            }).then(() => {
+                this.googleAuth = gapi.auth2.getAuthInstance();
+
+                // Listen for sign-in state changes.
+                console.log(1);
+                console.log(!!this.googleAuth.currentUser.get());
+                console.log(this.googleAuth.isSignedIn.get());
+                if (!!this.googleAuth.isSignedIn.get()) {
+                    console.log(this.googleAuth.currentUser.get().getAuthResponse());
+                    const accessToken: string = this.googleAuth.currentUser.get().getAuthResponse().access_token;
+                    var cred = firebase.auth.GoogleAuthProvider.credential(null, accessToken);
+                    firebase.auth().signInWithCredential(cred).then(function(user) {
+                        console.log("super!");
+                    });
+                } else {
+                    this.googleAuth.signIn();
+                    // console.log(2);
+                    this.googleAuth.isSignedIn.listen((isSignedIn: any) => {
+
+                        console.log(3);
+                        const user = this.googleAuth.currentUser.get();
+                        console.log(user.getAuthResponse(true));
+                        
+                        const accessToken: string = this.googleAuth.currentUser.get().getAuthResponse().access_token;
+                        var cred = firebase.auth.GoogleAuthProvider.credential(null, accessToken);
+                        firebase.auth().signInWithCredential(cred).then(function(user) {
+                            console.log("super!");
+                        });
+                        // this.updateSigninStatus(isSignedIn);
+                        // var cred = firebase.auth.GoogleAuthProvider.credential(null, gapiAccessToken);
+                    });
+                    console.log(this.googleAuth.currentUser.get().getAuthResponse());
+                } 
+            });
+       });
+
+    //     var GoogleAuth; // Google Auth object.
+    //     gapi.load('client:auth2', function() {
+    //         gapi.client.init({
+    //             'apiKey': "",
+    //             'clientId': "619676931792-tuq9skcpv2aal08bgr9d644vt0f2iqg5.apps.googleusercontent.com",
+    //             'scope': 'https://www.googleapis.com/auth/compute https://www.googleapis.com/auth/cloud-platform.read-only',
+    //             'discoveryDocs': ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest']
+    //         }).then(function () {
+    //             GoogleAuth = gapi.auth2.getAuthInstance();
+
+    //             // Listen for sign-in state changes.
+    //             console.log(1);
+    //             console.log(!!GoogleAuth.currentUser.get());
+    //             console.log(GoogleAuth.isSignedIn.get());
+    //             if (!!GoogleAuth.isSignedIn.get()) {
+    //                 console.log(GoogleAuth.currentUser.get().getAuthResponse());
+    //                 const accessToken: string = GoogleAuth.currentUser.get().getAuthResponse().access_token;
+    //                 var cred = firebase.auth.GoogleAuthProvider.credential(null, accessToken);
+    //                 firebase.auth().signInWithCredential(cred).then(function(user) {
+    //                     console.log("super!");
+    //                 });
+    //             } else {
+    //                 GoogleAuth.signIn();
+    //                 // console.log(2);
+    //                 GoogleAuth.isSignedIn.listen((isSignedIn: any) => {
+
+    //                     console.log(3);
+    //                     const user = GoogleAuth.currentUser.get();
+    //                     console.log(user.getAuthResponse(true));
+                        
+    //                     const accessToken: string = GoogleAuth.currentUser.get().getAuthResponse().access_token;
+    //                     var cred = firebase.auth.GoogleAuthProvider.credential(null, accessToken);
+    //                     firebase.auth().signInWithCredential(cred).then(function(user) {
+    //                         console.log("super!");
+    //                     });
+    //                     this.updateSigninStatus(isSignedIn);
+    //                     // var cred = firebase.auth.GoogleAuthProvider.credential(null, gapiAccessToken);
+    //                 });
+    //                 console.log(GoogleAuth.currentUser.get().getAuthResponse());
+    //             }
+                
+                
+    //         });
+    //    });
     }
 
     private onSignedOut(): void {
-        this.signInBtn.classList.add("visible");
+        // this.signInBtn.classList.add("visible");
         this.signOutBtn.classList.add("invisible");
         this.userNameLabel.classList.add("invisible");
         this.userNameLabel.nodeValue = "";
     }
 
     private onSignedIn(user: firebase.User): void {
-        this.signInBtn.classList.add("invisible");
+        // this.signInBtn.classList.add("invisible");
         this.signOutBtn.classList.add("visible");
         this.userNameLabel.classList.add("visible");
         this.userNameLabel.textContent = "Logged In as: " + user.displayName;
