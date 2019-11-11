@@ -81,13 +81,6 @@ export class DeployController {
                 });
             }
         );
-
-        // TODO: fix
-        document
-            .getElementById("deploy")
-            .addEventListener("click",
-                        (e:Event) => this.deployNotebook("fastai"));
-        
     }
 
     private addToDropDown<T>(dropDownElementBtn: HTMLElement, dropDownElement: HTMLElement, items: T[], configureAnchor: (item: T, anchor: HTMLAnchorElement) => void, onClick: (item: T) => void): void {
