@@ -17,7 +17,10 @@ function assignDeployButtons() {
     document
         .getElementById("deployFastAi")
         .addEventListener("click",
-                         (e:Event) => deployController.showDeployDialog());
+                         (e:Event) => {
+                            firebase.analytics().logEvent("deploy_fastai_clicked");
+                             deployController.showDeployDialog();
+                         });
 
                 
 }
@@ -25,4 +28,5 @@ function assignDeployButtons() {
 window.onload = function() {
     GcpAuthHelper.getInstance();
     assignDeployButtons();
+    firebase.analytics().logEvent("app_loaded");
 };
