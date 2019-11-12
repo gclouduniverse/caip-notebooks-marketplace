@@ -76,7 +76,12 @@ export class DeployController {
                     this.addToDropDown<string>(this.zonesDropDownBtn, this.zonesDropDown, zones, (zone: string, anchor: HTMLAnchorElement) => {
                         anchor.textContent = zone;
                     }, (zone: string) => {
-                        this.deployNotebook("fastai");
+                        document
+                            .getElementById("deployBtn")
+                            .addEventListener("click",
+                                            (e:Event) => {
+                                                this.deployNotebook("fastai");
+                                            });
                     });
                 });
             }

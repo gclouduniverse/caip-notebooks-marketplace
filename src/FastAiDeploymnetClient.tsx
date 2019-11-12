@@ -12,6 +12,10 @@ export class FastAiDeploymnetClient extends AbstractGcpClient<Response> {
         this.project = project;
         this.zone = zone;
         this.name = name;
+        console.log("FastAiDeploymnetClient created with:");
+        console.log("project: " + project);
+        console.log("zone: " + zone);
+        console.log("name: " + name);
     }
 
     public deploy() {
@@ -24,15 +28,15 @@ export class FastAiDeploymnetClient extends AbstractGcpClient<Response> {
         return JSON.stringify({
             "machineType": "n1-standard-1",
             "name": this.name,
-            "metadata": {
-                "items": {
-                    "proxy-mode": "service_account"
-                }
-            },
-            "scopes": [
-                "https://www.googleapis.com/auth/cloud-platform",
-                "https://www.googleapis.com/auth/userinfo.email"
-            ],
+            // "metadata": {
+            //     "items": {
+            //         "proxy-mode": "service_account"
+            //     }
+            // },
+            // "scopes": [
+            //     "https://www.googleapis.com/auth/cloud-platform",
+            //     "https://www.googleapis.com/auth/userinfo.email"
+            // ],
             "image-family": "pytorch-latest-cpu",
             "image-project": "deeplearning-platform-release"
         });

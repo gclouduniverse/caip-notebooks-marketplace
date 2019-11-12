@@ -1,11 +1,10 @@
-import { API_KEY } from "./FireBaseConfig";
+import { API_KEY, CLIENT_ID } from "./FireBaseConfig";
 import * as firebase from "firebase/app";
 import "firebase/auth";
 
 const SIGN_IN_BTN_ID: string = "signInBtn";
 const SIGN_OUT_BTN_ID: string = "signOutBtn";
 const USER_NAME_LABEL_ID: string = "userNameText";
-const TOKEN_COOKIE_NAME: string = "token";
 
 declare var gapi: any;
 
@@ -78,7 +77,7 @@ export class GcpAuthHelper {
             } else {
                 gapi.client.init({
                     "apiKey": API_KEY,
-                    "clientId": "619676931792-tuq9skcpv2aal08bgr9d644vt0f2iqg5.apps.googleusercontent.com",
+                    "clientId": CLIENT_ID,
                     "scope": "https://www.googleapis.com/auth/compute https://www.googleapis.com/auth/cloud-platform.read-only",
                     "discoveryDocs": ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"]
                 }).then(() => resolve());
