@@ -15,7 +15,9 @@
 
       "moduleResolution": "node",
 
-      "jsx": "preserve"
+      "jsx": "preserve",
+
+      "noImplicitThis": true
     },
       
     "include": [
