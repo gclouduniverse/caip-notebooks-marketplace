@@ -1,12 +1,11 @@
+import { API_KEY } from "./FireBaseConfig";
+import * as firebase from "firebase/app";
+import "firebase/auth";
+
 const SIGN_IN_BTN_ID: string = "signInBtn";
 const SIGN_OUT_BTN_ID: string = "signOutBtn";
 const USER_NAME_LABEL_ID: string = "userNameText";
 const TOKEN_COOKIE_NAME: string = "token";
-
-import * as firebase from "firebase/app";
-import "firebase/auth";
-
-export const API_KEY = "";
 
 declare var gapi: any;
 
