@@ -1,11 +1,23 @@
-import React, { useContext } from "react";
+import React, { useContext, useCallback } from "react";
 import "./style.css";
 import { Button, Row, Col } from "antd";
 import { Link } from "react-router-dom";
-import { CoreContext } from "../../app";
+import { CoreContext, CoreContextProps } from "../../app";
+import { signIn, getSignBtnText } from "./utils";
 
 const Header = () => {
-  const { isUserSignedIn } = useContext(CoreContext);
+  const { isUserSignedIn, setIsUserSignedIn, isLoading } = useContext<
+    CoreContextProps
+  >(CoreContext);
+
+  const handleOnSignIn = useCallback(() => {
+    if (isUserSignedIn) {
+      return;
+    }
+    signIn(() => {
+      setIsUserSignedIn && setIsUserSignedIn(true);
+    });
+  }, [isUserSignedIn, setIsUserSignedIn]);
 
   return (
     <Row className="header" type="flex" justify="space-between">
@@ -14,8 +26,10 @@ const Header = () => {
           Unofficial Cloud AI Platform Notebooks Marketplace
         </Link>
       </Col>
-      <Col span={1}>
-        <Button>{isUserSignedIn ? "Sing Out" : "Sign In"}</Button>
+      <Col span={2}>
+        <Button loading={isLoading} onClick={handleOnSignIn}>
+          {getSignBtnText(isLoading, isUserSignedIn)}
+        </Button>
       </Col>
     </Row>
   );
