@@ -1,5 +1,6 @@
 import React, { useCallback } from "react";
 import { DeployPopupProps } from "../../DeployPopup";
+import { Card, Typography, Button } from "antd";
 
 type Props = {
   id: string;
@@ -21,26 +22,24 @@ const NotebookCard: React.FC<Props> = (props: Props) => {
     lastUpdateDate,
     setDeployPopupState
   } = props;
+
   const handleOnDeployClick = useCallback(() => {
     setDeployPopupState({ visible: true });
   }, [setDeployPopupState]);
+
   return (
-    <div className="card">
-      <img className="card-img-top" src={imgSrc} alt={title} />
-      <div className="card-body">
-        <h5 className="card-title">{title}</h5>
-        <p className="card-text">{text}</p>
-        <p className="card-text">Author: {author}</p>
-        <button className="btn btn-primary" onClick={handleOnDeployClick}>
-          Deploy
-        </button>
-      </div>
-      <div className="card-footer">
-        <small className="text-muted">
-          Updated: {lastUpdateDate.toLocaleDateString()}
-        </small>
-      </div>
-    </div>
+    <Card cover={<img alt={title} src={imgSrc} />}>
+      <Typography.Title level={3}>{title}</Typography.Title>
+      <Typography.Paragraph>{text}</Typography.Paragraph>
+      <Typography.Paragraph>
+        <Typography.Text strong>Author:</Typography.Text> {author}
+      </Typography.Paragraph>
+      <Typography.Paragraph>
+        <Typography.Text strong>Updated:</Typography.Text>{" "}
+        {lastUpdateDate.toLocaleDateString()}
+      </Typography.Paragraph>
+      <Button onClick={handleOnDeployClick} type="primary">Deploy</Button>
+    </Card>
   );
 };
 

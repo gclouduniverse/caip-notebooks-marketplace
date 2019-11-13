@@ -1,4 +1,8 @@
 import React from "react";
+import "./style.css";
+import { Select, Typography } from "antd";
+const { Option } = Select;
+const { Paragraph } = Typography;
 
 export type DeployPopupProps = {
   visible: boolean;
@@ -6,37 +10,20 @@ export type DeployPopupProps = {
 
 const DeployPopup = () => {
   return (
-    <div className="modal" role="dialog">
-      <div className="modal-dialog" role="document">
-        <div className="modal-content">
-          <div className="modal-header">
-            <h5 className="modal-title">Modal title</h5>
-            <button
-              type="button"
-              className="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div className="modal-body">
-            <p>Modal body text goes here.</p>
-          </div>
-          <div className="modal-footer">
-            <button
-              type="button"
-              className="btn btn-secondary"
-              data-dismiss="modal"
-            >
-              Close
-            </button>
-            <button type="button" className="btn btn-primary">
-              Save changes
-            </button>
-          </div>
-        </div>
-      </div>
+    <div className="deploy-popup">
+      <Paragraph strong>Pick GCP prject to deploy the solution</Paragraph>
+      <Select className="deploy-popup__select">
+        <Option value="jack">Jack</Option>
+        <Option value="lucy">Lucy</Option>
+        <Option value="disabled" disabled>
+          Disabled
+        </Option>
+        <Option value="Yiminghe">yiminghe</Option>
+      </Select>
+      <Paragraph strong>Pick GCE regions</Paragraph>
+      <Select className="deploy-popup__select"></Select>
+      <Paragraph strong>Pick GCE zone</Paragraph>
+      <Select className="deploy-popup__select"></Select>
     </div>
   );
 };

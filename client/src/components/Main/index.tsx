@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import Header from "../Header";
+import React, { useState, useCallback } from "react";
+import { Modal, Button } from "antd";
 import NotebooksDeck from "../NotebooksDeck";
 import DeployPopup, { DeployPopupProps } from "../DeployPopup";
 
@@ -12,11 +12,22 @@ const Main = () => {
   const [deployPopupState, setDeployPopupState] = useState<DeployPopupProps>(
     initialDeployPopupState
   );
+
+  const handleCloseModal = useCallback(() => {
+    setDeployPopupState(initialDeployPopupState);
+  }, []);
+
   return (
     <>
-      <Header />
       <NotebooksDeck setDeployPopupState={setDeployPopupState} />
-      {deployPopupState.visible && <DeployPopup />}
+      <Modal
+        title="Deploy Settings"
+        visible={deployPopupState.visible}
+        onCancel={handleCloseModal}
+        footer={[<Button type="primary">Deploy</Button>]}
+      >
+        <DeployPopup />
+      </Modal>
     </>
   );
 };

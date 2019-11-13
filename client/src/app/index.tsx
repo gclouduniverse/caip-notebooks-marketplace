@@ -1,12 +1,24 @@
 import React from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import Main from "../components/Main";
+import "antd/dist/antd.min.css";
+import Layout from "../components/Layout";
 
-/** App entry point
- * @todo Add router
- */
+type CoreContextProps = {
+  isUserSignedIn: boolean;
+};
+
+const initialCoreContext = {
+  isUserSignedIn: false
+};
+
+export const CoreContext = React.createContext<CoreContextProps>(initialCoreContext);
+
+/** App entry point */
 const App = () => {
-  return <Main />;
+  return (
+    <CoreContext.Provider value={initialCoreContext}>
+      <Layout />
+    </CoreContext.Provider>
+  );
 };
 
 export default App;
