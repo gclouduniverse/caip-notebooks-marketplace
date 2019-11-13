@@ -3,19 +3,29 @@ import "./style.css";
 import { Button, Row, Col } from "antd";
 import { Link } from "react-router-dom";
 import { CoreContext, CoreContextProps } from "../../app";
-import { signIn, getSignBtnText } from "./utils";
+import { signIn, getSignBtnText, signOut } from "./utils";
+
+const noop = () => {};
 
 const Header = () => {
-  const { isUserSignedIn, setIsUserSignedIn, isLoading } = useContext<
-    CoreContextProps
-  >(CoreContext);
+  const {
+    isUserSignedIn,
+    isLoading,
+    setIsUserSignedIn = noop,
+    setIsLoading = noop
+  } = useContext<CoreContextProps>(CoreContext);
 
   const handleOnSignIn = useCallback(() => {
+    setIsLoading(true);
     if (isUserSignedIn) {
+      signOut(() => {
+        setIsUserSignedIn(false);
+      });
+
       return;
     }
     signIn(() => {
-      setIsUserSignedIn && setIsUserSignedIn(true);
+      setIsUserSignedIn(true);
     });
   }, [isUserSignedIn, setIsUserSignedIn]);
 

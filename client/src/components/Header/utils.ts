@@ -7,6 +7,13 @@ const GAPI_DISCOVERY_DOCS = [
   "https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"
 ];
 
+const GAPI_CLIENT_DATA = {
+  apiKey: GAPI_KEY,
+  clientId: GAPI_CLIENT_ID,
+  scope: GAPI_SCOPE,
+  discoveryDocs: GAPI_DISCOVERY_DOCS
+};
+
 declare var gapi: any;
 
 /**
@@ -16,14 +23,9 @@ declare var gapi: any;
  */
 export const signIn = async (cb: () => void) => {
   try {
+    debugger;
     await loadGapi();
-    const clientData = {
-      apiKey: GAPI_KEY,
-      clientId: GAPI_CLIENT_ID,
-      scope: GAPI_SCOPE,
-      discoveryDocs: GAPI_DISCOVERY_DOCS
-    };
-    await gapi.client.init(clientData);
+    await gapi.client.init(GAPI_CLIENT_DATA);
     const googleAuth = await gapi.auth2.getAuthInstance();
     googleAuth.signIn();
     googleAuth.isSignedIn.listen(async () => {
@@ -38,6 +40,25 @@ export const signIn = async (cb: () => void) => {
       await FIREBASE_CNM.auth().signInWithCredential(cred);
       cb();
     });
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+/**
+ *
+ * @param cb
+ * @todo Add normal error catching
+ */
+export const signOut = async (cb: () => void) => {
+  debugger;
+  try {
+    await loadGapi();
+    await gapi.client.init(GAPI_CLIENT_DATA);
+    const googleAuth = await gapi.auth2.getAuthInstance();
+    googleAuth.signOut();
+    FIREBASE_CNM.auth().signOut();
+    cb();
   } catch (e) {
     console.log(e);
   }

@@ -6,6 +6,7 @@ import FIREBASE_CNM from "../common/firebase";
 export type CoreContextProps = {
   isUserSignedIn: boolean;
   isLoading: boolean;
+  setIsLoading?:(isLoading: boolean) => void;
   setIsUserSignedIn?: (isUserSignedIn: boolean) => void;
 };
 
@@ -13,8 +14,6 @@ const initialCoreContext = {
   isUserSignedIn: false,
   isLoading: true
 };
-
-console.log(initialCoreContext);
 
 export const CoreContext = React.createContext(initialCoreContext);
 
@@ -32,12 +31,15 @@ const App = () => {
         setCoreState({ ...coreState, isLoading: false });
       }
     });
-  }, [coreState]);
+    // eslint-disable-next-line
+  }, []);
 
   const providerValue = {
     ...coreState,
+    setIsLoading: (isLoading: boolean) =>
+      setCoreState({ ...coreState, isLoading }),
     setIsUserSignedIn: (isUserSignedIn: boolean) =>
-      setCoreState({ ...coreState, isUserSignedIn })
+      setCoreState({ ...coreState, isUserSignedIn, isLoading: false })
   };
 
   return (
