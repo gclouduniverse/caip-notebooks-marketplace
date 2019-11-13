@@ -8,6 +8,7 @@ class ProjectsResponse {
 export class Project {
     projectId: string
     name: string
+    projectNumber: string
 }
 
 

@@ -33,6 +33,7 @@ export abstract class AbstractGcpClient<T> {
                 }
             }
             if (this.requestType == "POST") {
+                request.setRequestHeader("Content-Type", "application/json");
                 request.send(this.generateBody());
             } else {
                 request.send();

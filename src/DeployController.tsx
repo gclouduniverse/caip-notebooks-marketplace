@@ -10,11 +10,10 @@ const REGIONS_DROPDOWN_ID: string = "regionsDropDown";
 const REGIONS_DROPDOWN_BTN_ID: string = "regionsDropDownBtn";
 const ZONES_DROPDOWN_ID: string = "zonesDropDown";
 const ZONES_DROPDOWN_BTN_ID: string = "zonesDropDownBtn";
+const NAME_INPUT_ID: string = "nameInput";
 
 
 export class DeployController {
-
-    private rootModal: HTMLElement;
 
     private projectGcpClient: ProjectsGcpClient;
     private projectsDropDown: HTMLElement;
@@ -27,8 +26,12 @@ export class DeployController {
     private zonesDropDown: HTMLElement;
     private zonesDropDownBtn: HTMLElement;
 
+    private selectedProjectId: string;
+    private selectedProjectNumber: string;
+
+    private nameInputField: HTMLInputElement;
+
     constructor(apiKey: string) {
-        this.rootModal = document.getElementById(ROOT_MODAL_ID);
 
         this.projectGcpClient = new ProjectsGcpClient(apiKey);
         this.projectsDropDown = document.getElementById(PROJECTS_DROPDOWN_ID);
@@ -40,6 +43,8 @@ export class DeployController {
 
         this.zonesDropDown = document.getElementById(ZONES_DROPDOWN_ID);
         this.zonesDropDownBtn = document.getElementById(ZONES_DROPDOWN_BTN_ID);
+
+        this.nameInputField = document.getElementById(NAME_INPUT_ID) as HTMLInputElement;
     }
 
     public showDeployDialog() {
@@ -50,8 +55,10 @@ export class DeployController {
             (projects: Project[]) => {
                 this.addToDropDown<Project>(this.projectsDropDownBtn, this.projectsDropDown, projects, (project: Project, newAnchorItem: HTMLAnchorElement): void => {
                     newAnchorItem.textContent = project.name;
-                    newAnchorItem.nodeValue = project.projectId;
-                }, null);
+                }, (project) => {
+                    this.selectedProjectId = project.projectId;
+                    this.selectedProjectNumber = project.projectNumber;
+                });
             }
         );
 
@@ -108,7 +115,12 @@ export class DeployController {
     }
 
     public deployNotebook(name: string) {
-        const fastAiDeploymnetClient = new FastAiDeploymnetClient(this.projectsDropDownBtn.textContent, this.zonesDropDownBtn.textContent, "testfastai");
+        const fastAiDeploymnetClient = new FastAiDeploymnetClient(
+            this.selectedProjectId,
+            this.zonesDropDownBtn.textContent, 
+            this.nameInputField.value, 
+            this.regionsDropDownBtn.textContent,
+            this.selectedProjectNumber);
         fastAiDeploymnetClient.deploy();
     }
 }

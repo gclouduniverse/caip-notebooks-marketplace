@@ -3,17 +3,21 @@ import { AbstractGcpClient } from "./AbstractGcpClient";
 class Response {}
 
 export class FastAiDeploymnetClient extends AbstractGcpClient<Response> {
-    private project: string;
+    private projectId: string;
     private zone: string;
     private name: string;
+    private region: string;
+    private projectNumber: string;
 
-    constructor(project: string, zone: string, name: string) {
+    constructor(projectId: string, zone: string, name: string, region: string, projectNumber: string) {
         super("POST");
-        this.project = project;
+        this.projectId = projectId;
         this.zone = zone;
         this.name = name;
+        this.region = region;
+        this.projectNumber = projectNumber;
         console.log("FastAiDeploymnetClient created with:");
-        console.log("project: " + project);
+        console.log("project: " + projectId);
         console.log("zone: " + zone);
         console.log("name: " + name);
     }
@@ -26,23 +30,61 @@ export class FastAiDeploymnetClient extends AbstractGcpClient<Response> {
 
     protected generateBody(): string {
         return JSON.stringify({
-            "machineType": "n1-standard-1",
+            "machineType": "projects/" + this.projectId + "/zones/" + this.zone + "/machineTypes/n1-standard-1",
             "name": this.name,
-            // "metadata": {
-            //     "items": {
-            //         "proxy-mode": "service_account"
-            //     }
-            // },
-            // "scopes": [
-            //     "https://www.googleapis.com/auth/cloud-platform",
-            //     "https://www.googleapis.com/auth/userinfo.email"
-            // ],
-            "image-family": "pytorch-latest-cpu",
-            "image-project": "deeplearning-platform-release"
+            "zone": "projects/" + this.projectId + "/zones/" + this.zone,
+            "metadata": {
+                "kind": "compute#metadata",
+                "items": [
+                    {
+                        "key": "proxy-mode",
+                        "value": "project_editors"
+                    }, {
+                        "key": "jupyter-ui",
+                        "value": "notebook"
+                    }
+                ]
+            },
+            "serviceAccounts": [
+                {
+                  "email": this.projectNumber + "-compute@developer.gserviceaccount.com",
+                  "scopes": [
+                    "https://www.googleapis.com/auth/cloud-platform",
+                    "https://www.googleapis.com/auth/userinfo.email"
+                  ]
+                }
+            ],
+            "networkInterfaces": [ 
+                {
+                    "kind": "compute#networkInterface",
+                    "subnetwork": "projects/" + this.projectId + "/regions/" + this.region + "/subnetworks/default"
+                }
+            ],
+            "tags": {
+              "items": [
+                "deeplearning-vm"
+              ]
+            },
+            "disks": [
+                {
+                  "kind": "compute#attachedDisk",
+                  "type": "PERSISTENT",
+                  "boot": true,
+                  "mode": "READ_WRITE",
+                  "autoDelete": true,
+                  "deviceName": this.name,
+                  "initializeParams": {
+                    "sourceImage": "projects/deeplearning-platform-release/global/images/family/pytorch-latest-cpu",
+                    "diskType": "projects/" + this.projectId + "/zones/" + this.zone + "/diskTypes/pd-standard",
+                    "diskSizeGb": "50"
+                  },
+                  "diskEncryptionKey": {}
+                }
+            ]
         });
     }
 
     protected getUrl(): string {
-        return "https://compute.googleapis.com/compute/v1/projects/" + this.project + "/zones/" + this.zone + "/instances";
+        return "https://compute.googleapis.com/compute/v1/projects/" + this.projectId + "/zones/" + this.zone + "/instances";
     }
 }
