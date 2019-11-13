@@ -38,7 +38,7 @@ export class FastAiDeploymnetClient extends AbstractGcpClient<Response> {
                 "items": [
                     {
                         "key": "proxy-mode",
-                        "value": "project_editors"
+                        "value": "service_account"
                     }, {
                         "key": "jupyter-ui",
                         "value": "notebook"

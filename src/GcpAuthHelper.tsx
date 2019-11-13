@@ -15,7 +15,6 @@ export class GcpAuthHelper {
     private signInBtn: HTMLElement;
     private signOutBtn: HTMLElement;
     private userNameLabel: HTMLElement;
-    private authProvider: firebase.auth.GoogleAuthProvider = new firebase.auth.GoogleAuthProvider();
     private googleAuth: any;
 
     private constructor() {
@@ -26,9 +25,6 @@ export class GcpAuthHelper {
         this.signOutBtn.addEventListener("click", (e:Event) => this.onSignOutClick());
 
         this.userNameLabel = document.getElementById(USER_NAME_LABEL_ID);
-
-        this.authProvider.addScope("https://www.googleapis.com/auth/compute");
-        this.authProvider.addScope("https://www.googleapis.com/auth/cloud-platform.read-only");
     }
 
     public static getInstance(): GcpAuthHelper {
@@ -78,7 +74,7 @@ export class GcpAuthHelper {
                 gapi.client.init({
                     "apiKey": API_KEY,
                     "clientId": CLIENT_ID,
-                    "scope": "https://www.googleapis.com/auth/compute https://www.googleapis.com/auth/cloud-platform.read-only",
+                    "scope": "https://www.googleapis.com/auth/compute https://www.googleapis.com/auth/cloud-platform.read-only https://www.googleapis.com/auth/userinfo.email",
                     "discoveryDocs": ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"]
                 }).then(() => resolve());
             }
