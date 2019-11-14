@@ -1,16 +1,11 @@
 import React, { useCallback } from "react";
 import { DeployPopupProps } from "../../DeployPopup";
 import { Card, Typography, Button } from "antd";
+import { NotebookProps } from "../../../common/types";
 
-type Props = {
-  id: string;
-  imgSrc: string;
-  title: string;
-  text: string;
-  author: string;
-  lastUpdateDate: Date;
+type Props = NotebookProps & {
   setDeployPopupState: (state: DeployPopupProps) => void;
-};
+}
 
 /** Card with info about notebook */
 const NotebookCard: React.FC<Props> = (props: Props) => {

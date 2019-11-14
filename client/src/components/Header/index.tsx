@@ -1,34 +1,10 @@
-import React, { useContext, useCallback } from "react";
+import React from "react";
 import "./style.css";
-import { Button, Row, Col } from "antd";
+import { Row, Col } from "antd";
 import { Link } from "react-router-dom";
-import { CoreContext, CoreContextProps } from "../../app";
-import { signIn, getSignBtnText, signOut } from "./utils";
-
-const noop = () => {};
+import SignIn from "../SignIn";
 
 const Header = () => {
-  const {
-    isUserSignedIn,
-    isLoading,
-    setIsUserSignedIn = noop,
-    setIsLoading = noop
-  } = useContext<CoreContextProps>(CoreContext);
-
-  const handleOnSignIn = useCallback(() => {
-    setIsLoading(true);
-    if (isUserSignedIn) {
-      signOut(() => {
-        setIsUserSignedIn(false);
-      });
-
-      return;
-    }
-    signIn(() => {
-      setIsUserSignedIn(true);
-    });
-  }, [isUserSignedIn, setIsUserSignedIn]);
-
   return (
     <Row className="header" type="flex" justify="space-between">
       <Col span={8}>
@@ -37,9 +13,7 @@ const Header = () => {
         </Link>
       </Col>
       <Col span={2}>
-        <Button loading={isLoading} onClick={handleOnSignIn}>
-          {getSignBtnText(isLoading, isUserSignedIn)}
-        </Button>
+        <SignIn />
       </Col>
     </Row>
   );

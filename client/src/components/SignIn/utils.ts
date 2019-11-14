@@ -23,7 +23,6 @@ declare var gapi: any;
  */
 export const signIn = async (cb: () => void) => {
   try {
-    debugger;
     await loadGapi();
     await gapi.client.init(GAPI_CLIENT_DATA);
     const googleAuth = await gapi.auth2.getAuthInstance();
@@ -51,7 +50,6 @@ export const signIn = async (cb: () => void) => {
  * @todo Add normal error catching
  */
 export const signOut = async (cb: () => void) => {
-  debugger;
   try {
     await loadGapi();
     await gapi.client.init(GAPI_CLIENT_DATA);
