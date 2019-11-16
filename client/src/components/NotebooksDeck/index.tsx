@@ -1,12 +1,11 @@
 import React from "react";
 import { Row, Col } from "antd";
 import NotebookCard from "./NotebookCard";
-import { DeployPopupProps } from "../DeployPopup";
 import "./style.css";
 import { NotebookProps } from "../../common/types";
 
 type Props = {
-  setDeployPopupState: (state: DeployPopupProps) => void;
+  setDeployPopupState: (isVisible: boolean) => void;
   notebooks: NotebookProps[];
 };
 

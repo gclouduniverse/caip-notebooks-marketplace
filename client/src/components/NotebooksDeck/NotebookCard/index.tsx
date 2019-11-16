@@ -1,10 +1,9 @@
 import React, { useCallback } from "react";
-import { DeployPopupProps } from "../../DeployPopup";
 import { Card, Typography, Button } from "antd";
 import { NotebookProps } from "../../../common/types";
 
 type Props = NotebookProps & {
-  setDeployPopupState: (state: DeployPopupProps) => void;
+  setDeployPopupState: (isVisible: boolean) => void;
 }
 
 /** Card with info about notebook */
@@ -19,7 +18,7 @@ const NotebookCard: React.FC<Props> = (props: Props) => {
   } = props;
 
   const handleOnDeployClick = useCallback(() => {
-    setDeployPopupState({ visible: true });
+    setDeployPopupState(true);
   }, [setDeployPopupState]);
 
   return (

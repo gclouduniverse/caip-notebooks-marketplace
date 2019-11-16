@@ -1,20 +1,5 @@
-import { GAPI_KEY, GAPI_CLIENT_ID } from "../../common/constants";
 import FIREBASE_CNM from "../../common/firebase";
-
-const GAPI_SCOPE =
-  "https://www.googleapis.com/auth/compute https://www.googleapis.com/auth/cloud-platform.read-only";
-const GAPI_DISCOVERY_DOCS = [
-  "https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"
-];
-
-const GAPI_CLIENT_DATA = {
-  apiKey: GAPI_KEY,
-  clientId: GAPI_CLIENT_ID,
-  scope: GAPI_SCOPE,
-  discoveryDocs: GAPI_DISCOVERY_DOCS
-};
-
-declare var gapi: any;
+import { getGoogleAuthInstance } from "../../common/googleAuth";
 
 /**
  *
@@ -23,9 +8,8 @@ declare var gapi: any;
  */
 export const signIn = async (cb: () => void) => {
   try {
-    await loadGapi();
-    await gapi.client.init(GAPI_CLIENT_DATA);
-    const googleAuth = await gapi.auth2.getAuthInstance();
+    const googleAuth = await getGoogleAuthInstance();
+    if(!googleAuth) throw new Error("Can't initialize google api")
     googleAuth.signIn();
     googleAuth.isSignedIn.listen(async () => {
       const { access_token } = googleAuth.currentUser.get().getAuthResponse();
@@ -51,23 +35,14 @@ export const signIn = async (cb: () => void) => {
  */
 export const signOut = async (cb: () => void) => {
   try {
-    await loadGapi();
-    await gapi.client.init(GAPI_CLIENT_DATA);
-    const googleAuth = await gapi.auth2.getAuthInstance();
+    const googleAuth = await getGoogleAuthInstance();
+    if(!googleAuth) throw new Error("Can't initialize google api")
     googleAuth.signOut();
     FIREBASE_CNM.auth().signOut();
     cb();
   } catch (e) {
     console.log(e);
   }
-};
-
-const loadGapi = () => {
-  return new Promise(resolve => {
-    gapi.load("client:auth2", () => {
-      resolve();
-    });
-  });
 };
 
 export const getSignBtnText = (isLoading: boolean, isSignedIn: boolean) => {

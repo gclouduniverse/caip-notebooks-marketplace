@@ -1,14 +1,10 @@
 import React, { useState, useCallback, useContext } from "react";
 import { Modal, Button } from "antd";
 import NotebooksDeck from "../NotebooksDeck";
-import DeployPopup, { DeployPopupProps } from "../DeployPopup";
+import DeployPopup from "../DeployPopup";
 import { CoreContext, CoreContextProps } from "../../app";
 import { notebooks } from "./constants";
 import SignIn from "../SignIn";
-
-const initialDeployPopupState: DeployPopupProps = {
-  visible: false
-};
 
 const WarningSignIn = () => (
   <div>You need to sign in before to be able to deploy</div>
@@ -17,14 +13,14 @@ const DeployButton = () => <Button type="primary">Deploy</Button>;
 
 /** Main page of marketplace */
 const Main = () => {
-  const [deployPopupState, setDeployPopupState] = useState<DeployPopupProps>(
-    initialDeployPopupState
+  const [isDeployPopupVisibile, setIsDeployPopupVisibile] = useState<boolean>(
+    false
   );
 
   const { isUserSignedIn } = useContext<CoreContextProps>(CoreContext);
 
   const handleCloseModal = useCallback(() => {
-    setDeployPopupState(initialDeployPopupState);
+    setIsDeployPopupVisibile(false);
   }, []);
 
   const modalTitle = isUserSignedIn ? "Deploy Settings" : "You need to sign in";
@@ -34,12 +30,12 @@ const Main = () => {
   return (
     <>
       <NotebooksDeck
-        setDeployPopupState={setDeployPopupState}
+        setDeployPopupState={setIsDeployPopupVisibile}
         notebooks={notebooks}
       />
       <Modal
         title={modalTitle}
-        visible={deployPopupState.visible}
+        visible={isDeployPopupVisibile}
         onCancel={handleCloseModal}
         footer={[modalFooter]}
       >
