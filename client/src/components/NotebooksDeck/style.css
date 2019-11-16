@@ -1,0 +1,8 @@
+.notebooks {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.notebooks__card{
+    margin: 5px;
+}
