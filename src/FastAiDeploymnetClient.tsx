@@ -57,7 +57,15 @@ export class FastAiDeploymnetClient extends AbstractGcpClient<Response> {
             "networkInterfaces": [ 
                 {
                     "kind": "compute#networkInterface",
-                    "subnetwork": "projects/" + this.projectId + "/regions/" + this.region + "/subnetworks/default"
+                    "subnetwork": "projects/" + this.projectId + "/regions/" + this.region + "/subnetworks/default",
+                    "accessConfigs": [
+                        {
+                          "kind": "compute#accessConfig",
+                          "name": "External NAT",
+                          "type": "ONE_TO_ONE_NAT",
+                          "networkTier": "PREMIUM"
+                        }
+                    ]
                 }
             ],
             "tags": {
