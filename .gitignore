@@ -1,6 +1,1 @@
-node_modules/
-public/dist/
-.firebase/
-firebase-debug.log
-.firebaserc
-src/FireBaseConfig.tsx
+﻿client/src/common/constants/keys.ts
