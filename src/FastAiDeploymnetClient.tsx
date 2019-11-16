@@ -42,6 +42,9 @@ export class FastAiDeploymnetClient extends AbstractGcpClient<Response> {
                     }, {
                         "key": "jupyter-ui",
                         "value": "notebook"
+                    }, {
+                        "key": "post-startup-script",
+                        "value": "gs://marketplace-public-files/fastai/preconfigure-fastai.sh"
                     }
                 ]
             },
