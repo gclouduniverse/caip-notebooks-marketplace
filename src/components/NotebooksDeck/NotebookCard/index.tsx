@@ -3,7 +3,7 @@ import { Card, Typography, Button } from "antd";
 import { NotebookProps } from "../../../common/types";
 
 type Props = NotebookProps & {
-  setDeployPopupState: (isVisible: boolean) => void;
+  setDeploySettingsState: (isVisible: boolean) => void;
 }
 
 /** Card with info about notebook */
@@ -14,12 +14,12 @@ const NotebookCard: React.FC<Props> = (props: Props) => {
     text,
     author,
     lastUpdateDate,
-    setDeployPopupState
+    setDeploySettingsState
   } = props;
 
   const handleOnDeployClick = useCallback(() => {
-    setDeployPopupState(true);
-  }, [setDeployPopupState]);
+    setDeploySettingsState(true);
+  }, [setDeploySettingsState]);
 
   return (
     <Card cover={<img alt={title} src={imgSrc} />}>

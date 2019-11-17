@@ -1,0 +1,22 @@
+.deploy-popup {
+    margin-bottom: 10px;
+}
+
+.deploy-popup__select {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.deploy-popup__deploy-btn-container {
+    float: right;
+}
+
+.deploy-progress {
+    margin-top: 10px;
+    display: flex;
+    padding: 20px;
+}
+
+.deploy-progress__text {
+    margin-left: 10px;
+}

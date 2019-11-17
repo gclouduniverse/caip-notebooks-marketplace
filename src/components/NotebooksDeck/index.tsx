@@ -5,13 +5,13 @@ import "./style.css";
 import { NotebookProps } from "../../common/types";
 
 type Props = {
-  setDeployPopupState: (isVisible: boolean) => void;
+  setDeploySettingsState: (isVisible: boolean) => void;
   notebooks: NotebookProps[];
 };
 
 /** Card-like view for notebooks */
 const NotebooksDeck = React.memo(
-  ({ setDeployPopupState, notebooks }: Props) => {
+  ({ setDeploySettingsState, notebooks }: Props) => {
     return (
       <div className="notebooks">
         <Row>
@@ -27,7 +27,7 @@ const NotebooksDeck = React.memo(
             >
               <NotebookCard
                 {...notebook}
-                setDeployPopupState={setDeployPopupState}
+                setDeploySettingsState={setDeploySettingsState}
               />
             </Col>
           ))}

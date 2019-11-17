@@ -1,0 +1,7 @@
+.main-deploy-modal {
+
+}
+
+.main-deploy-modal > .ant-modal-content > .ant-modal-footer {
+    border-top: none;
+}

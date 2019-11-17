@@ -2,13 +2,7 @@ import { getGoogleAuthInstance } from "../googleAuth";
 import { GAPI_KEY } from "../constants";
 
 export abstract class AbstractGcpClient<T> {
-  private requestType: string;
-
   protected apiKey = GAPI_KEY;
-
-  constructor(requestType: string = "GET") {
-    this.requestType = requestType;
-  }
 
   protected getUrl(): string {
     throw new Error("getUrl of AbstractGcpClient need to be overriden");
@@ -19,9 +13,25 @@ export abstract class AbstractGcpClient<T> {
   }
 
   /**
-   * @todo Add support for POST request
+   * @returns true if success, false if not
    */
-  public async execute(property: string) {
+  protected async deploy() {
+    try {
+      const rawResponse = await fetch(this.getUrl(), {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        body: this.generateBody()
+      });
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  protected async execute(property: string) {
     try {
       const gai = await getGoogleAuthInstance();
       const token: string = await gai.currentUser.get().getAuthResponse()
@@ -33,10 +43,9 @@ export abstract class AbstractGcpClient<T> {
         }
       });
       const object = await response.json();
-      if(object.error) {
-        throw new Error(JSON.stringify(object.error))
+      if (object.error) {
+        throw new Error(JSON.stringify(object.error));
       }
-      debugger;
       return object[property] as T;
     } catch (e) {
       console.log(e);

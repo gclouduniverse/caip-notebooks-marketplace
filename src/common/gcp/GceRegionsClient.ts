@@ -1,20 +1,21 @@
 import { AbstractGcpClient } from "./AbstractGcpClient";
-import { GoogleProjectRegion } from "../types";
-import { GAPI_PROJECT_NAME } from "../constants";
+import { GoogleProjectRegion, GoogleCloudProject } from "../types";
 
-const API_URL =`https://compute.googleapis.com/compute/v1/projects/${GAPI_PROJECT_NAME}/regions`;
 
 export class GceRegionsClient extends AbstractGcpClient<GoogleProjectRegion[]> {
-  public constructor() {
+  private project: GoogleCloudProject;
+
+  public constructor(project: GoogleCloudProject) {
     super();
+    this.project = project;
   }
 
   public async requestRegions() {
-    const regions = await super.execute("regions");
+    const regions = await super.execute("items");
     return regions;
   }
 
   protected getUrl(): string {
-    return API_URL;
+    return `https://compute.googleapis.com/compute/v1/projects/${this.project.name}/regions`;
   }
 }
