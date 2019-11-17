@@ -38,7 +38,7 @@ const initialState: DeploySettingsState = {
 /**
  * Component for notebook deploy settings
  * @todo Break into subcomponents to reduce size
- * @todo Display deployment error
+ * @todo Display deployment error message
  */
 const DeploySettings = React.memo(() => {
   const [state, setState] = useState<DeploySettingsState>(initialState);
@@ -191,6 +191,12 @@ const DeploySettings = React.memo(() => {
               </Option>
             ))}
         </Select>
+        {state.deployProgressState === DeployProgessState.Success && (
+          <div className="deploy-progress" style={{ background: "#B7EB8F" }}>
+            <Icon type="check-circle"  theme="filled" style={{ color: '#52C41A' }} />
+            <div className="deploy-progress__text">Success</div>
+          </div>
+        )}
         {state.deployProgressState === DeployProgessState.InProcess && (
           <div className="deploy-progress" style={{ background: "#E6F7FF" }}>
             <Spin />
