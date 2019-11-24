@@ -10,9 +10,18 @@ export class GceRegionsClient extends AbstractGcpClient<GoogleProjectRegion[]> {
     this.project = project;
   }
 
-  public async requestRegions() {
-    const regions = await super.execute("items");
-    return regions;
+  public async requestRegions(): Promise<GoogleProjectRegion[] | null> {
+    const regions: GoogleProjectRegion[] | null  = await super.execute("items");
+    if (regions == null) {
+      return null;
+    }
+    return regions.map((region: GoogleProjectRegion) => {
+      region.zones = region.zones.map((zone: string) => {
+        const zoneComponents: string[] = zone.split("/");
+        return zoneComponents[zoneComponents.length - 1];
+      });
+      return region;
+    });
   }
 
   protected getUrl(): string {

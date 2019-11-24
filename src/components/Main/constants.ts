@@ -11,11 +11,4 @@ const notebooks: NotebookProps[] = [
   },
 ];
 
-for(let i=2;i<15;i++){
-  notebooks.push({
-    ...notebooks[0],
-    id: i.toString()
-  })
-}
-
 export {notebooks};

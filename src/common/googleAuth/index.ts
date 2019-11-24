@@ -1,4 +1,4 @@
-import { GAPI_KEY, GAPI_CLIENT_ID } from "../../common/constants";
+import { API_KEY, API_CLIENT_ID } from "../../common/constants";
 
 declare var gapi: any;
 
@@ -9,8 +9,8 @@ const GAPI_DISCOVERY_DOCS = [
 ];
 
 const GAPI_CLIENT_DATA = {
-  apiKey: GAPI_KEY,
-  clientId: GAPI_CLIENT_ID,
+  apiKey: API_KEY,
+  clientId: API_CLIENT_ID,
   scope: GAPI_SCOPE,
   discoveryDocs: GAPI_DISCOVERY_DOCS
 };

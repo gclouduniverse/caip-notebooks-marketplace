@@ -1,8 +1,8 @@
 import { getGoogleAuthInstance } from "../googleAuth";
-import { GAPI_KEY } from "../constants";
+import { API_KEY } from "../constants";
 
 export abstract class AbstractGcpClient<T> {
-  protected apiKey = GAPI_KEY;
+  protected apiKey = API_KEY;
 
   protected getUrl(): string {
     throw new Error("getUrl of AbstractGcpClient need to be overriden");

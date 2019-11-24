@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import "./style.css";
-import { Select, Typography, Button, Spin, Icon } from "antd";
+import { Select, Typography, Button, Spin, Icon, Input } from "antd";
 import { ProjectsGcpClient, GceRegionsClient } from "../../common/gcp";
 import { GoogleCloudProject, GoogleProjectRegion } from "../../common/types";
 import { DeploymentClient } from "../../common/gcp/DeploymentClient";
@@ -22,6 +22,7 @@ type DeploySettingsState = {
   selectedProject: GoogleCloudProject | null;
   selectedRegion: GoogleProjectRegion | null;
   selectedZone: string | null;
+  deploymentName: string | null;
   deployProgressState: DeployProgessState;
 };
 
@@ -32,6 +33,7 @@ const initialState: DeploySettingsState = {
   selectedProject: null,
   selectedRegion: null,
   selectedZone: null,
+  deploymentName: null,
   deployProgressState: DeployProgessState.NotStarted
 };
 
@@ -111,21 +113,29 @@ const DeploySettings = React.memo(() => {
     [state]
   );
 
+  const handleOnDeploymentName = useCallback(
+    deploymentName => {
+      setState({ ...state, deploymentName });
+    },
+    [state]
+  );
+
   const handleOnDeployClick = useCallback(() => {
     if (
       state.deployProgressState ||
       !state.selectedProject ||
       !state.selectedRegion ||
-      !state.selectedZone
+      !state.selectedZone ||
+      !state.deploymentName
     ) {
       return;
     }
-    const { selectedProject, selectedZone, selectedRegion } = state;
+    const { selectedProject, selectedZone, selectedRegion, deploymentName } = state;
     setState({ ...state, deployProgressState: DeployProgessState.InProcess });
     const client = new DeploymentClient(
       selectedProject.projectId,
       selectedZone,
-      selectedProject.name,
+      deploymentName,
       selectedRegion.name,
       selectedProject.projectNumber
     );
@@ -146,6 +156,8 @@ const DeploySettings = React.memo(() => {
   return (
     <>
       <div className="deploy-popup">
+        <Paragraph strong>Specify deployment name</Paragraph>
+        <Input onChange={handleOnDeploymentName}></Input>
         <Paragraph strong>Pick GCP project to deploy the solution</Paragraph>
         <Select
           disabled={state.deployProgressState === DeployProgessState.InProcess}
