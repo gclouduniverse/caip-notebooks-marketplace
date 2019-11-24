@@ -17,9 +17,13 @@ export abstract class AbstractGcpClient<T> {
    */
   protected async deploy() {
     try {
+      const gai = await getGoogleAuthInstance();
+      const token: string = await gai.currentUser.get().getAuthResponse()
+          .access_token;
       const rawResponse = await fetch(this.getUrl(), {
         method: "POST",
         headers: {
+          Authorization: `Bearer ${token}`,
           Accept: "application/json",
           "Content-Type": "application/json"
         },

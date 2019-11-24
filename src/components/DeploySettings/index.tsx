@@ -114,8 +114,9 @@ const DeploySettings = React.memo(() => {
   );
 
   const handleOnDeploymentName = useCallback(
-    deploymentName => {
-      setState({ ...state, deploymentName });
+      (deploymentNameInput: React.FormEvent<HTMLInputElement>) => {
+          const deploymentName: string = deploymentNameInput.currentTarget.value;
+          setState({ ...state, deploymentName });
     },
     [state]
   );

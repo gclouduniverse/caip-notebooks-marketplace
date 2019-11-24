@@ -11,16 +11,18 @@ export const signIn = async (cb: () => void) => {
     const googleAuth = await getGoogleAuthInstance();
     if(!googleAuth) throw new Error("Can't initialize google api")
     googleAuth.signIn();
-    googleAuth.isSignedIn.listen(async () => {
-      const { access_token } = googleAuth.currentUser.get().getAuthResponse();
-      const cred = FIREBASE_CNM.auth.GoogleAuthProvider.credential(
-        null,
-        access_token
-      );
-      FIREBASE_CNM.auth().setPersistence(
-        FIREBASE_CNM.auth.Auth.Persistence.LOCAL
-      );
-      await FIREBASE_CNM.auth().signInWithCredential(cred);
+    googleAuth.isSignedIn.listen((isSignedIn: boolean) => {
+      if (isSignedIn) {
+        const { access_token } = googleAuth.currentUser.get().getAuthResponse();
+        const cred = FIREBASE_CNM.auth.GoogleAuthProvider.credential(
+          null,
+          access_token
+        );
+        FIREBASE_CNM.auth().setPersistence(
+          FIREBASE_CNM.auth.Auth.Persistence.LOCAL
+        );
+        FIREBASE_CNM.auth().signInWithCredential(cred);
+      }
       cb();
     });
   } catch (e) {
