@@ -1,4 +1,6 @@
 import { AbstractGcpClient } from "./AbstractGcpClient";
+import "firebase/analytics";
+import firebase from "firebase";
 
 export type DeploymentResponse = {
 };
@@ -30,6 +32,7 @@ export class DeploymentClient extends AbstractGcpClient<DeploymentResponse> {
   }
 
   public deploy() {
+    firebase.analytics().logEvent("fastai_deployed");
     return super.deploy();
   }
 
