@@ -1,107 +1,19 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>Unofficial Cloud AI Platform Notebooks Marketplace</title>
-    <script src="dist/bundle.js" type="text/javascript"></script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta
+      name="description"
+      content="Unofficial Cloud AI Platform Notebooks Marketplac"
+    />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <title>Unofficial Cloud AI Platform Notebooks Marketplac</title>
     <script src="https://apis.google.com/js/platform.js"></script>
   </head>
   <body>
-    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
-        <h5 class="my-0 mr-md-auto font-weight-normal">Unofficial Cloud AI Platform Notebooks Marketplace</h5>
-        <a class="my-0 mr-md-auto font-weight-normal" id="userNameText">Company name</a>
-        <a class="btn btn-outline-primary" href="#" id="signInBtn">Sign In</a>
-        <a class="btn btn-outline-primary" href="#" id="signOutBtn">Sign Out</a>
-    </div>
-
-    <div class="card-deck">
-        <div class="card">
-          <img class="card-img-top" src="images/fast.ai.png" alt="Card image cap">
-          <div class="card-body">
-            <h5 class="card-title">fast.ai focused notebooks IDE</h5>
-            <p class="card-text">Includes latest fast.ai as well as classical Notebook IDE (since fast.ai is not yet fully compatible with JupyterLab).</p>
-            <p class="card-text">Author: Viacheslav Kovalevskyi</p>
-            <a href="#" class="btn btn-primary" id="deployFastAi">Deploy</a>
-          </div>
-          <div class="card-footer">
-            <small class="text-muted">Updated: Nov 12 2019</small>
-          </div>
-        </div>
-        <div class="card">
-          <img class="card-img-top" src="..." alt="Card image cap">
-          <div class="card-body">
-            <h5 class="card-title">TensorBoard</h5>
-            <p class="card-text">Coming Soons.</p>
-          </div>
-          <div class="card-footer">
-            <small class="text-muted"></small>
-          </div>
-        </div>
-        <div class="card">
-          <img class="card-img-top" src="..." alt="Card image cap">
-          <div class="card-body">
-            <h5 class="card-title">PolyNote</h5>
-            <p class="card-text">Coming Soon</p>
-          </div>
-          <div class="card-footer">
-            <small class="text-muted"></small>
-          </div>
-        </div>
-      </div>
-
-      <div class="modal fade" id="deployModalDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Deploy settings</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <p>Pick GCP prject to deploy the solution:
-                  <div class="dropdown">
-                      <button class="btn btn-secondary dropdown-toggle" type="button" id="projectsDropDownBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Pick a project
-                      </button>
-                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="projectsDropDown">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                      </div>
-                    </div>
-              <p>Pick GCE regions:
-                  <div class="dropdown">
-                      <button class="btn btn-secondary dropdown-toggle" type="button" id="regionsDropDownBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Pick a region
-                      </button>
-                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="regionsDropDown">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                      </div>
-                    </div>
-              <p>Pick GCE zone:
-                  <div class="dropdown">
-                      <button class="btn btn-secondary dropdown-toggle" type="button" id="zonesDropDownBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Pick a zone
-                      </button>
-                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="zonesDropDown">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                      </div>
-                    </div>
-              </p>
-              <input type="text" class="form-control" id="nameInput" placeholder="Name of the deployment">
-            </div>
-
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" id="deployBtn">Deploy</button>
-          </div>
-          <div class="modal-footer">
-          </div>
-        </div>
-      </div>
-  </div>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
   </body>
 </html>

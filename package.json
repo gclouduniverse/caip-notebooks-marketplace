@@ -1,53 +1,40 @@
 {
-  "name": "caip-notebooks-marketplace",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "build": "webpack",
-    "watch": "webpack -w"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/gclouduniverse/caip-notebooks-marketplace.git"
-  },
-  "author": "Viacheslav Kovalevskyi",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/gclouduniverse/caip-notebooks-marketplace/issues"
-  },
-  "homepage": "https://github.com/gclouduniverse/caip-notebooks-marketplace#readme",
+  "name": "caip-notebooks-marketplace-client",
+  "version": "0.1.0",
+  "private": true,
   "dependencies": {
-    "@google-cloud/compute": "^1.1.5",
-    "@types/bootstrap": "^4.3.1",
-    "@types/jquery": "^3.3.31",
-    "bootstrap": "^4.3.1",
-    "es-cookie": "^1.3.0",
-    "file-loader": "^4.2.0",
+    "@types/jest": "^24.0.22",
+    "@types/node": "^12.12.7",
+    "@types/react": "^16.9.11",
+    "@types/react-dom": "^16.9.4",
+    "@types/react-router-dom": "^5.1.2",
+    "antd": "^3.25.1",
     "firebase": "^7.3.0",
-    "firebaseui": "^4.2.0",
-    "forever-agent": "^0.6.1",
-    "google-auth-library": "^5.5.1",
-    "googleapis": "^45.0.0",
-    "gtoken": "^4.1.1",
-    "https-proxy-agent": "^3.0.1",
-    "jquery": "^3.4.1",
-    "popper.js": "^1.16.0",
-    "request": "^2.88.0",
-    "request-promise-native": "^1.0.8",
-    "tunnel-agent": "^0.6.0",
-    "typescript": "^3.7.2",
-    "url-loader": "^2.2.0"
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "3.2.0",
+    "typescript": "^3.7.2"
   },
-  "devDependencies": {
-    "autoprefixer": "^9.7.1",
-    "css-loader": "^3.2.0",
-    "node-sass": "^4.13.0",
-    "postcss-loader": "^3.0.0",
-    "sass-loader": "^8.0.0",
-    "style-loader": "^1.0.0",
-    "ts-loader": "^6.2.1",
-    "webpack": "^4.41.2",
-    "webpack-cli": "^3.3.10"
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
