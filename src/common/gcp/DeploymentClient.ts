@@ -32,7 +32,7 @@ export class DeploymentClient extends AbstractGcpClient<DeploymentResponse> {
   }
 
   public deploy() {
-    firebase.analytics().logEvent("fastai_deployed");
+    firebase.analytics().logEvent("deploy_fastai_clicked");
     return super.deploy();
   }
 
