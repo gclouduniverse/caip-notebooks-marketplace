@@ -20,8 +20,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "lint": "eslint ."
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -39,14 +38,13 @@
     ]
   },
   "devDependencies": {
-    "eslint": "^6.7.2",
     "husky": "^3.1.0",
     "prettier": "^1.19.1",
     "pretty-quick": "^2.0.1"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "eslint . && pretty-quick --staged"
+      "pre-commit": "pretty-quick --staged"
     }
   }
 }
