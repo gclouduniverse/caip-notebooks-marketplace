@@ -6,7 +6,7 @@
 /firebase.json
 
 # dependencies
-/node_modules
+/node_modules/
 /.pnp
 .pnp.js
 
@@ -14,8 +14,7 @@
 /coverage
 
 # production
-/build
-/.firebaserc
+/build/
 /.firebase/
 /public/dist/
 
