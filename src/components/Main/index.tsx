@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useContext } from "react";
 import { Modal, Button } from "antd";
 import NotebooksDeck from "../NotebooksDeck";
-import DeploySettings from "../DeploySettings";
+import FastAiDeploySettings from "../FastAiDeploySettings";
 import { CoreContext, CoreContextProps } from "../../app";
 import { notebooks } from "./constants";
 import SignIn from "../SignIn";
@@ -25,7 +25,7 @@ const Main = () => {
   }, []);
 
   const modalTitle = isUserSignedIn ? "Deploy Settings" : "You need to sign in";
-  const modalContent = isUserSignedIn ? <DeploySettings /> : <WarningSignIn />;
+  const modalContent = isUserSignedIn ? <FastAiDeploySettings /> : <WarningSignIn />;
 
   return (
     <>

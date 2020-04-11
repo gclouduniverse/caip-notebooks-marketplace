@@ -1,9 +1,8 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, ReactElement } from "react";
 import "./style.css";
 import { Select, Typography, Button, Spin, Icon, Input } from "antd";
 import { ProjectsGcpClient, GceRegionsClient } from "../../common/gcp";
 import { GoogleCloudProject, GoogleProjectRegion } from "../../common/types";
-import { DeploymentClient } from "../../common/gcp/DeploymentClient";
 
 const { Option } = Select;
 const { Paragraph } = Typography;
@@ -15,7 +14,12 @@ enum DeployProgessState {
   Success
 }
 
-type DeploySettingsState = {
+type DeployProps = {
+    deploy: (state: DeploySettingsState, cb: (isSuccess: boolean) => void) => void;
+    generateElement: () => ReactElement
+}
+
+export type DeploySettingsState = {
   projects: GoogleCloudProject[] | null;
   regions: GoogleProjectRegion[] | null;
   zones: string[];
@@ -42,7 +46,7 @@ const initialState: DeploySettingsState = {
  * @todo Break into subcomponents to reduce size
  * @todo Display deployment error message
  */
-const DeploySettings = React.memo(() => {
+const DeploySettings = React.memo((props: DeployProps) => {
   const [state, setState] = useState<DeploySettingsState>(initialState);
 
   useEffect(() => {
@@ -131,22 +135,16 @@ const DeploySettings = React.memo(() => {
     ) {
       return;
     }
-    const { selectedProject, selectedZone, selectedRegion, deploymentName } = state;
+
     setState({ ...state, deployProgressState: DeployProgessState.InProcess });
-    const client = new DeploymentClient(
-      selectedProject.projectId,
-      selectedZone,
-      deploymentName,
-      selectedRegion.name,
-      selectedProject.projectNumber
-    );
-    client.deploy().then(isSuccess => {
-      setState({
-        ...state,
-        deployProgressState: isSuccess
-          ? DeployProgessState.Success
-          : DeployProgessState.Error
-      });
+    props.deploy(state, (isSuccess: boolean) => {
+        setState({
+                ...state,
+                deployProgressState: isSuccess
+                    ? DeployProgessState.Success
+                    : DeployProgessState.Error
+            }
+        );
     });
   }, [state]);
 
@@ -204,6 +202,9 @@ const DeploySettings = React.memo(() => {
               </Option>
             ))}
         </Select>
+          {
+              props.generateElement()
+          }
         {state.deployProgressState === DeployProgessState.Success && (
           <div className="deploy-progress" style={{ background: "#B7EB8F" }}>
             <Icon type="check-circle"  theme="filled" style={{ color: '#52C41A' }} />

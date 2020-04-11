@@ -9,6 +9,14 @@ const notebooks: NotebookProps[] = [
     author: 'Viacheslav Kovalevskyi',
     lastUpdateDate: new Date(2019, 9, 12),
   },
+  {
+    id: '2',
+    imgSrc: "images/tensorboard.png",
+    title: "TensorBoard deployment",
+    text: `TB.`,
+    author: 'Viacheslav Kovalevskyi',
+    lastUpdateDate: new Date(2019, 11, 30),
+  },
 ];
 
 export {notebooks};
