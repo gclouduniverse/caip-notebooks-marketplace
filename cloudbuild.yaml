@@ -3,7 +3,9 @@ steps:
     entrypoint: "/bin/bash"
     args:
       - "-c"
-      - "firebase use dev"
+      - |
+        FIREBASE_TOKEN="$(gcloud auth application-default print-access-token)"
+        firebase use dev
   - name: "gcr.io/cloud-builders/gcloud"
     entrypoint: "bash"
     args:
