@@ -1,5 +1,5 @@
 steps:
-  - name: "gcr.io/caip-notebooks-marketplace-dev/firebase-cli/firebase-cli"
+  - name: "gcr.io/caip-notebooks-marketplace-dev/firebase-cli"
     entrypoint: "/bin/bash"
     args:
       - "-c"
