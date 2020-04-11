@@ -3,7 +3,6 @@
 # Dev
 /.idea/
 /firebase-debug.log
-/firebase.json
 
 # dependencies
 /node_modules/
