@@ -11,10 +11,10 @@ steps:
   - name: "gcr.io/caip-notebooks-marketplace-dev/firebase-cli"
     dir: "caip-notebooks-marketplace"
     entrypoint: "/bin/bash"
+    secretEnv: ["FIREBASE_TOKEN"]
     args:
       - "-c"
-      - "firebase --token=${FIREBASE_TOKEN} use dev"
-    secretEnv: ["FIREBASE_TOKEN"]
+      - "firebase --token=$${FIREBASE_TOKEN} use dev"
   - name: "gcr.io/cloud-builders/gcloud"
     dir: "caip-notebooks-marketplace"
     entrypoint: "bash"
