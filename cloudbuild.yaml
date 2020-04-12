@@ -4,10 +4,12 @@ steps:
       - "clone"
       - "https://github.com/gclouduniverse/caip-notebooks-marketplace.git"
   - name: "gcr.io/cloud-builders/git"
+    dir: "caip-notebooks-marketplace"
     args:
       - "checkout"
       - "${COMMIT_SHA}"
   - name: "gcr.io/caip-notebooks-marketplace-dev/firebase-cli"
+    dir: "caip-notebooks-marketplace"
     entrypoint: "/bin/bash"
     args:
       - "-c"
@@ -15,6 +17,7 @@ steps:
         FIREBASE_TOKEN="$(gcloud auth application-default print-access-token)"
         firebase use dev
   - name: "gcr.io/cloud-builders/gcloud"
+    dir: "caip-notebooks-marketplace"
     entrypoint: "bash"
     args:
       - "-c"
@@ -23,11 +26,13 @@ steps:
             --secret "firebase-config" \
             --project "caip-notebooks-marketplace-dev" > ./src/common/constants/keys.ts
   - name: "gcr.io/caip-notebooks-marketplace-dev/firebase-cli"
+    dir: "caip-notebooks-marketplace"
     entrypoint: "bash"
     args:
       - "-c"
       - "npm run build"
   - name: "gcr.io/caip-notebooks-marketplace-dev/firebase-cli"
+    dir: "caip-notebooks-marketplace"
     entrypoint: "bash"
     args:
       - "-c"
