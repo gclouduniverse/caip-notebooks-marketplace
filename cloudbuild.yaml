@@ -1,10 +1,19 @@
 steps:
+  - name: "gcr.io/cloud-builders/git"
+    args:
+      - "clone"
+      - "https://github.com/gclouduniverse/caip-notebooks-marketplace.git"
+  - name: "gcr.io/cloud-builders/git"
+    args:
+      - "checkout"
+      - "${COMMIT_SHA}"
   - name: "gcr.io/caip-notebooks-marketplace-dev/firebase-cli"
     entrypoint: "/bin/bash"
     args:
       - "-c"
       - |
-        FIREBASE_TOKEN="$(gcloud auth application-default print-access-token)" && firebase use dev
+        FIREBASE_TOKEN="$(gcloud auth application-default print-access-token)"
+        firebase use dev
   - name: "gcr.io/cloud-builders/gcloud"
     entrypoint: "bash"
     args:
