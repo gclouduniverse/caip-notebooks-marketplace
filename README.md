@@ -35,6 +35,7 @@ firebase use dev
 gcloud beta secrets versions access "latest" \
     --secret "firebase-config" \
     --project "caip-notebooks-marketplace-dev" > ./src/common/constants/keys.ts
+npm install
 npm run build
 firebase deploy
 ```
