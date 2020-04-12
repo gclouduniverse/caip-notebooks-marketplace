@@ -14,7 +14,7 @@ steps:
     args:
       - "-c"
       - |
-        FIREBASE_TOKEN="$(gcloud auth application-default print-access-token)"
+        FIREBASE_TOKEN="$(gcloud auth application-default print-access-token)" && \
         firebase use dev
   - name: "gcr.io/cloud-builders/gcloud"
     dir: "caip-notebooks-marketplace"
