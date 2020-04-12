@@ -11,10 +11,10 @@ steps:
   - name: "gcr.io/caip-notebooks-marketplace-dev/firebase-cli"
     dir: "caip-notebooks-marketplace"
     entrypoint: "/bin/bash"
-    secretEnv: ['FIREBASE_TOKEN']
     args:
       - "-c"
       - "firebase --token=${FIREBASE_TOKEN} use dev"
+    secretEnv: ["FIREBASE_TOKEN"]
   - name: "gcr.io/cloud-builders/gcloud"
     dir: "caip-notebooks-marketplace"
     entrypoint: "bash"
@@ -37,6 +37,6 @@ steps:
       - "-c"
       - "firebase deploy"
 secrets:
-  - kmsKeyName: projects/caip-notebooks-marketplace-dev/locations/global/keyRings/ci/cryptoKeys/ci-key
+  - kmsKeyName: "projects/caip-notebooks-marketplace-dev/locations/global/keyRings/ci/cryptoKeys/ci-key"
     secretEnv:
-      FIREBASE_TOKEN: CiQAG7Fhu1RgO+WpOole9wsI1Kmv0kSXtVvSwcHWgfwW11dpHLkSkQEAnxPNe+2eGUhyDk64UUwx6LEG4ITUbiYoQpZvO32eOTBAU3KZJN/ge5LvciGPReiNp/0os1ERhVW6AWQzu4dj/9pRASO0xzTi8yxFYZFvWlCnHkSiqJ7lz3mnqoAegz0Pj7LRiON6UMMM5P/Zqaxd5fRpM9TaWYmz964nIrSPNnfgTAd1xEGX8ssciCYYSywd
+      FIREBASE_TOKEN: "CiQAG7Fhu1RgO+WpOole9wsI1Kmv0kSXtVvSwcHWgfwW11dpHLkSkQEAnxPNe+2eGUhyDk64UUwx6LEG4ITUbiYoQpZvO32eOTBAU3KZJN/ge5LvciGPReiNp/0os1ERhVW6AWQzu4dj/9pRASO0xzTi8yxFYZFvWlCnHkSiqJ7lz3mnqoAegz0Pj7LRiON6UMMM5P/Zqaxd5fRpM9TaWYmz964nIrSPNnfgTAd1xEGX8ssciCYYSywd"
