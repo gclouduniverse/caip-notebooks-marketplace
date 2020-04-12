@@ -1,6 +1,6 @@
 {
   "projects": {
-    "default": "caip-notebooks-marketplace",
+    "prod": "caip-notebooks-marketplace",
     "dev": "caip-notebooks-marketplace-dev"
   }
 }
