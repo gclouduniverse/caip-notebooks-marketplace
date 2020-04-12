@@ -29,6 +29,12 @@ steps:
     entrypoint: "bash"
     args:
       - "-c"
+      - "npm install"
+  - name: "gcr.io/caip-notebooks-marketplace-dev/firebase-cli"
+    dir: "caip-notebooks-marketplace"
+    entrypoint: "bash"
+    args:
+      - "-c"
       - "npm run build"
   - name: "gcr.io/caip-notebooks-marketplace-dev/firebase-cli"
     dir: "caip-notebooks-marketplace"
