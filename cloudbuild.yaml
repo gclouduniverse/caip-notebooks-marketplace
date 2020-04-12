@@ -13,9 +13,7 @@ steps:
     entrypoint: "/bin/bash"
     args:
       - "-c"
-      - |
-        FIREBASE_TOKEN="$(gcloud auth application-default print-access-token)" && \
-        firebase use dev
+      - "firebase --token=$(gcloud auth application-default print-access-token) use dev"
   - name: "gcr.io/cloud-builders/gcloud"
     dir: "caip-notebooks-marketplace"
     entrypoint: "bash"
