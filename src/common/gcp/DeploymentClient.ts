@@ -11,13 +11,21 @@ export class DeploymentClient extends AbstractGcpClient<DeploymentResponse> {
   private name: string;
   private region: string;
   private projectNumber: string;
+  private deploymentNameForAnalytics: string;
+  private gceStartupScripts?: string;
+  private dlvmStartupScripts?: string;
+  private additionalMetadata?: [{key: string, value: string}]
 
   constructor(
     projectId: string,
     zone: string,
     name: string,
     region: string,
-    projectNumber: string
+    projectNumber: string,
+    deploymentNameForAnalytics: string,
+    gceStartupScripts?: string,
+    dlvmStartupScripts?: string,
+    additionalMetadata?: [{key: string, value: string}]
   ) {
     super();
     this.projectId = projectId;
@@ -25,18 +33,43 @@ export class DeploymentClient extends AbstractGcpClient<DeploymentResponse> {
     this.name = name;
     this.region = region;
     this.projectNumber = projectNumber;
-    console.log("FastAiDeploymnetClient created with:");
+    this.deploymentNameForAnalytics = deploymentNameForAnalytics;
+    this.gceStartupScripts = gceStartupScripts;
+    this.dlvmStartupScripts = dlvmStartupScripts;
+    this.additionalMetadata = additionalMetadata;
+    console.log("New DeploymnetClient created with:");
     console.log("project: " + projectId);
     console.log("zone: " + zone);
     console.log("name: " + name);
   }
 
   public deploy() {
-    firebase.analytics().logEvent("deploy_fastai_clicked");
+    firebase.analytics().logEvent(`deploy_${this.deploymentNameForAnalytics}_clicked`);
     return super.deploy();
   }
 
   protected generateBody(): string {
+    const metadata_items_start = [
+      {
+        key: "proxy-mode",
+        value: "service_account"
+      }
+    ];
+    const metadata_items = this.additionalMetadata ? metadata_items_start.concat(this.additionalMetadata) :
+        metadata_items_start;
+    if (!!this.dlvmStartupScripts) {
+      metadata_items.push({
+        key: "post-startup-script",
+        value: this.dlvmStartupScripts
+      });
+    }
+    if (!!this.gceStartupScripts) {
+      metadata_items.push({
+        key: "startup-script",
+        value: this.gceStartupScripts
+      });
+    }
+
     const body = {
       machineType:
         "projects/" +
@@ -48,20 +81,7 @@ export class DeploymentClient extends AbstractGcpClient<DeploymentResponse> {
       zone: "projects/" + this.projectId + "/zones/" + this.zone,
       metadata: {
         kind: "compute#metadata",
-        items: [
-          {
-            key: "proxy-mode",
-            value: "service_account"
-          },
-          {
-            key: "jupyter-ui",
-            value: "notebook"
-          },
-          {
-            key: "post-startup-script",
-            value: "gs://marketplace-public-files/fastai/preconfigure-fastai.sh"
-          }
-        ]
+        items: metadata_items
       },
       serviceAccounts: [
         {

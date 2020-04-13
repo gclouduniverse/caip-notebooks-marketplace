@@ -15,8 +15,20 @@ const DeployButton = () => <Button type="primary">Deploy</Button>;
 /** Main page of marketplace */
 const Main = () => {
   const [isDeploySettingsVisibile, setIsDeploySettingsVisibile] = useState<
-    boolean
+  boolean
   >(false);
+const [deploySettingDeploymentName, setDeploySettingDeploymentName] = useState<
+    string
+    >("");
+
+  function setDeploymentState(visible: boolean, deploymentName: string) {
+      setIsDeploySettingsVisibile(visible);
+      setDeploySettingDeploymentName(deploymentName);
+  }
+
+  function getDeploySettingDeploymentName() {
+        return deploySettingDeploymentName;
+  }
 
   const { isUserSignedIn } = useContext<CoreContextProps>(CoreContext);
 
@@ -25,12 +37,13 @@ const Main = () => {
   }, []);
 
   const modalTitle = isUserSignedIn ? "Deploy Settings" : "You need to sign in";
-  const modalContent = isUserSignedIn ? <DeploySettings /> : <WarningSignIn />;
+  const modalContent = isUserSignedIn ? <DeploySettings getDeploymentName={getDeploySettingDeploymentName}/> :
+      <WarningSignIn />;
 
   return (
     <>
       <NotebooksDeck
-        setDeploySettingsState={setIsDeploySettingsVisibile}
+        setDeploySettingsState={setDeploymentState}
         notebooks={notebooks}
       />
       <Modal

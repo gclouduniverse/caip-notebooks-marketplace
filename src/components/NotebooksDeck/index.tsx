@@ -5,7 +5,7 @@ import "./style.css";
 import { NotebookProps } from "../../common/types";
 
 type Props = {
-  setDeploySettingsState: (isVisible: boolean) => void;
+  setDeploySettingsState: (isVisible: boolean, deploymentName: string) => void;
   notebooks: NotebookProps[];
 };
 

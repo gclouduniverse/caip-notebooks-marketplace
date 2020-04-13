@@ -8,6 +8,7 @@ const notebooks: NotebookProps[] = [
     text: `Includes latest fast.ai as well as classical Notebook IDE (since fast.ai is not yet fully compatible with JupyterLab).`,
     author: 'Viacheslav Kovalevskyi',
     lastUpdateDate: new Date(2019, 9, 12),
+    deploymentCode: "fastai"
   },
 ];
 

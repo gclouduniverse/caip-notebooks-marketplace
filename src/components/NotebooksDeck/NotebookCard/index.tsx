@@ -3,7 +3,7 @@ import { Card, Typography, Button } from "antd";
 import { NotebookProps } from "../../../common/types";
 
 type Props = NotebookProps & {
-  setDeploySettingsState: (isVisible: boolean) => void;
+  setDeploySettingsState: (isVisible: boolean, deploymentName: string) => void;
 }
 
 /** Card with info about notebook */
@@ -14,11 +14,12 @@ const NotebookCard: React.FC<Props> = (props: Props) => {
     text,
     author,
     lastUpdateDate,
+    deploymentCode,
     setDeploySettingsState
   } = props;
 
   const handleOnDeployClick = useCallback(() => {
-    setDeploySettingsState(true);
+    setDeploySettingsState(true, props.deploymentCode);
   }, [setDeploySettingsState]);
 
   return (

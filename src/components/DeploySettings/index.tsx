@@ -2,11 +2,16 @@ import React, { useEffect, useState, useCallback } from "react";
 import "./style.css";
 import { Select, Typography, Button, Spin, Icon, Input } from "antd";
 import { ProjectsGcpClient, GceRegionsClient } from "../../common/gcp";
-import { GoogleCloudProject, GoogleProjectRegion } from "../../common/types";
+import {GoogleCloudProject, GoogleProjectRegion} from "../../common/types";
 import { DeploymentClient } from "../../common/gcp/DeploymentClient";
+import {FastAiDeploymentClient} from "../../common/gcp/FastAiDeploymentClient";
 
 const { Option } = Select;
 const { Paragraph } = Typography;
+
+type Props = {
+    getDeploymentName: () => string;
+};
 
 enum DeployProgessState {
   NotStarted,
@@ -42,7 +47,7 @@ const initialState: DeploySettingsState = {
  * @todo Break into subcomponents to reduce size
  * @todo Display deployment error message
  */
-const DeploySettings = React.memo(() => {
+const DeploySettings = React.memo(({ getDeploymentName }: Props) => {
   const [state, setState] = useState<DeploySettingsState>(initialState);
 
   useEffect(() => {
@@ -133,13 +138,20 @@ const DeploySettings = React.memo(() => {
     }
     const { selectedProject, selectedZone, selectedRegion, deploymentName } = state;
     setState({ ...state, deployProgressState: DeployProgessState.InProcess });
-    const client = new DeploymentClient(
-      selectedProject.projectId,
-      selectedZone,
-      deploymentName,
-      selectedRegion.name,
-      selectedProject.projectNumber
-    );
+    var client: DeploymentClient;
+    if (getDeploymentName() == "fastai") {
+        client = new FastAiDeploymentClient(
+            selectedProject.projectId,
+            selectedZone,
+            deploymentName,
+            selectedRegion.name,
+            selectedProject.projectNumber
+        );
+    } else {
+        throw new Error(
+            `deployment name is unknown: ${getDeploymentName()}`
+        )
+    }
     client.deploy().then(isSuccess => {
       setState({
         ...state,

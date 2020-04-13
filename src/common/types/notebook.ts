@@ -5,4 +5,5 @@ export type NotebookProps = {
   text: string;
   author: string;
   lastUpdateDate: Date;
+  deploymentCode: string;
 };
