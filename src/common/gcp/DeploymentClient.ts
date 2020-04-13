@@ -2,8 +2,7 @@ import { AbstractGcpClient } from "./AbstractGcpClient";
 import "firebase/analytics";
 import firebase from "firebase";
 
-export type DeploymentResponse = {
-};
+export type DeploymentResponse = {};
 
 export class DeploymentClient extends AbstractGcpClient<DeploymentResponse> {
   private projectId: string;
@@ -14,7 +13,7 @@ export class DeploymentClient extends AbstractGcpClient<DeploymentResponse> {
   private deploymentNameForAnalytics: string;
   private gceStartupScripts?: string;
   private dlvmStartupScripts?: string;
-  private additionalMetadata?: [{key: string, value: string}]
+  private additionalMetadata?: [{ key: string; value: string }];
 
   constructor(
     projectId: string,
@@ -25,7 +24,7 @@ export class DeploymentClient extends AbstractGcpClient<DeploymentResponse> {
     deploymentNameForAnalytics: string,
     gceStartupScripts?: string,
     dlvmStartupScripts?: string,
-    additionalMetadata?: [{key: string, value: string}]
+    additionalMetadata?: [{ key: string; value: string }]
   ) {
     super();
     this.projectId = projectId;
@@ -44,7 +43,9 @@ export class DeploymentClient extends AbstractGcpClient<DeploymentResponse> {
   }
 
   public deploy() {
-    firebase.analytics().logEvent(`deploy_${this.deploymentNameForAnalytics}_clicked`);
+    firebase
+      .analytics()
+      .logEvent(`deploy_${this.deploymentNameForAnalytics}_clicked`);
     return super.deploy();
   }
 
@@ -55,8 +56,9 @@ export class DeploymentClient extends AbstractGcpClient<DeploymentResponse> {
         value: "service_account"
       }
     ];
-    const metadata_items = this.additionalMetadata ? metadata_items_start.concat(this.additionalMetadata) :
-        metadata_items_start;
+    const metadata_items = this.additionalMetadata
+      ? metadata_items_start.concat(this.additionalMetadata)
+      : metadata_items_start;
     if (!!this.dlvmStartupScripts) {
       metadata_items.push({
         key: "post-startup-script",

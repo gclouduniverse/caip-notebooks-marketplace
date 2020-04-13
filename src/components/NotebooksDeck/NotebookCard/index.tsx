@@ -4,7 +4,7 @@ import { NotebookProps } from "../../../common/types";
 
 type Props = NotebookProps & {
   setDeploySettingsState: (isVisible: boolean, deploymentName: string) => void;
-}
+};
 
 /** Card with info about notebook */
 const NotebookCard: React.FC<Props> = (props: Props) => {
@@ -33,7 +33,9 @@ const NotebookCard: React.FC<Props> = (props: Props) => {
         <Typography.Text strong>Updated:</Typography.Text>{" "}
         {lastUpdateDate.toLocaleDateString()}
       </Typography.Paragraph>
-      <Button onClick={handleOnDeployClick} type="primary">Deploy</Button>
+      <Button onClick={handleOnDeployClick} type="primary">
+        Deploy
+      </Button>
     </Card>
   );
 };

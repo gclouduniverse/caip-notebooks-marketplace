@@ -5,7 +5,7 @@ import DeploySettings from "../DeploySettings";
 import { CoreContext, CoreContextProps } from "../../app";
 import { notebooks } from "./constants";
 import SignIn from "../SignIn";
-import "./style.css"
+import "./style.css";
 
 const WarningSignIn = () => (
   <div>You need to sign in before to be able to deploy</div>
@@ -15,19 +15,20 @@ const DeployButton = () => <Button type="primary">Deploy</Button>;
 /** Main page of marketplace */
 const Main = () => {
   const [isDeploySettingsVisibile, setIsDeploySettingsVisibile] = useState<
-  boolean
+    boolean
   >(false);
-const [deploySettingDeploymentName, setDeploySettingDeploymentName] = useState<
-    string
-    >("");
+  const [
+    deploySettingDeploymentName,
+    setDeploySettingDeploymentName
+  ] = useState<string>("");
 
   function setDeploymentState(visible: boolean, deploymentName: string) {
-      setIsDeploySettingsVisibile(visible);
-      setDeploySettingDeploymentName(deploymentName);
+    setIsDeploySettingsVisibile(visible);
+    setDeploySettingDeploymentName(deploymentName);
   }
 
   function getDeploySettingDeploymentName() {
-        return deploySettingDeploymentName;
+    return deploySettingDeploymentName;
   }
 
   const { isUserSignedIn } = useContext<CoreContextProps>(CoreContext);
@@ -37,8 +38,11 @@ const [deploySettingDeploymentName, setDeploySettingDeploymentName] = useState<
   }, []);
 
   const modalTitle = isUserSignedIn ? "Deploy Settings" : "You need to sign in";
-  const modalContent = isUserSignedIn ? <DeploySettings getDeploymentName={getDeploySettingDeploymentName}/> :
-      <WarningSignIn />;
+  const modalContent = isUserSignedIn ? (
+    <DeploySettings getDeploymentName={getDeploySettingDeploymentName} />
+  ) : (
+    <WarningSignIn />
+  );
 
   return (
     <>
