@@ -15,6 +15,7 @@ export class FastAiDeploymentClient extends DeploymentClient {
       region,
       projectNumber,
       "fastai",
+      "projects/deeplearning-platform-release/global/images/family/pytorch-latest-cpu",
       "",
       "gs://marketplace-public-files/fastai/preconfigure-fastai.sh",
       [

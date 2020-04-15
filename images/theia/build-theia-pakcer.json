@@ -1,0 +1,48 @@
+{
+  "builders": [
+    {
+      "type": "googlecompute",
+      "project_id": "caip-notebooks-marketplace-dev",
+      "source_image_project_id": "deeplearning-platform-release",
+      "source_image_family": "common-cpu-notebooks",
+      "ssh_username": "packer",
+      "zone": "us-west1-b",
+      "image_family": "theia-ide",
+      "image_name": "theia-ide-{{user `image_id`}}",
+      "state_timeout": "15m",
+      "disk_size": "50",
+      "scopes": [
+        "https://www.googleapis.com/auth/cloud-platform"
+      ]
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "file",
+      "source": "start-theiaide.sh",
+      "destination": "/tmp/start-theiaide.sh"
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "sudo cp /tmp/start-theiaide.sh /opt/deeplearning/bin/start-theiaide.sh",
+        "rm /tmp/start-theiaide.sh"
+      ]
+    },
+    {
+      "type": "file",
+      "source": "replace-jupyter-with-theia.sh",
+      "destination": "/tmp/replace-jupyter-with-theia.sh"
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "sudo /tmp/replace-jupyter-with-theia.sh",
+        "rm /tmp/replace-jupyter-with-theia.sh"
+      ]
+    }
+  ],
+  "variables": {
+    "image_id": "{{env `ID`}}"
+  }
+}

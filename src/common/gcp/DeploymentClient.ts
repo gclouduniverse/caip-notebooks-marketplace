@@ -11,9 +11,10 @@ export class DeploymentClient extends AbstractGcpClient<DeploymentResponse> {
   private region: string;
   private projectNumber: string;
   private deploymentNameForAnalytics: string;
+  private sourceImage: string;
   private gceStartupScripts?: string;
   private dlvmStartupScripts?: string;
-  private additionalMetadata?: [{ key: string; value: string }];
+  private additionalMetadata?: Array<{ key: string; value: string }>;
 
   constructor(
     projectId: string,
@@ -22,9 +23,10 @@ export class DeploymentClient extends AbstractGcpClient<DeploymentResponse> {
     region: string,
     projectNumber: string,
     deploymentNameForAnalytics: string,
+    sourceImage: string,
     gceStartupScripts?: string,
     dlvmStartupScripts?: string,
-    additionalMetadata?: [{ key: string; value: string }]
+    additionalMetadata?: Array<{ key: string; value: string }>
   ) {
     super();
     this.projectId = projectId;
@@ -33,6 +35,7 @@ export class DeploymentClient extends AbstractGcpClient<DeploymentResponse> {
     this.region = region;
     this.projectNumber = projectNumber;
     this.deploymentNameForAnalytics = deploymentNameForAnalytics;
+    this.sourceImage = sourceImage;
     this.gceStartupScripts = gceStartupScripts;
     this.dlvmStartupScripts = dlvmStartupScripts;
     this.additionalMetadata = additionalMetadata;
@@ -67,7 +70,7 @@ export class DeploymentClient extends AbstractGcpClient<DeploymentResponse> {
     }
     if (!!this.gceStartupScripts) {
       metadata_items.push({
-        key: "startup-script",
+        key: "startup-script-url",
         value: this.gceStartupScripts
       });
     }
@@ -126,7 +129,7 @@ export class DeploymentClient extends AbstractGcpClient<DeploymentResponse> {
           deviceName: this.name,
           initializeParams: {
             sourceImage:
-              "projects/deeplearning-platform-release/global/images/family/pytorch-latest-cpu",
+              this.sourceImage,
             diskType:
               "projects/" +
               this.projectId +
