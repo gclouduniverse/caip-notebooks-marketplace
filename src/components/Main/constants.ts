@@ -1,14 +1,23 @@
 import { NotebookProps } from "../../common/types";
 
 const notebooks: NotebookProps[] = [
+  // {
+  //   id: "1",
+  //   imgSrc: "images/theia.svg",
+  //   title: "Cloud & Desktop IDE Platform",
+  //   text: `Eclipse Theia is an extensible platform to develop multi-language Cloud & Desktop IDEs with state-of-the-art web technologies. Learn more on: https://theia-ide.org/`,
+  //   author: "Viacheslav Kovalevskyi",
+  //   lastUpdateDate: new Date(2020, 4, 12),
+  //   deploymentCode: "theia"
+  // },
   {
     id: "1",
-    imgSrc: "images/theia.svg",
-    title: "Cloud & Desktop IDE Platform",
-    text: `Eclipse Theia is an extensible platform to develop multi-language Cloud & Desktop IDEs with state-of-the-art web technologies. Learn more on: https://theia-ide.org/`,
+    imgSrc: "images/jupyterlab2.png",
+    title: "JupyterLab2 with Python Debugger, TensorFlow 2.1 and CUDA 10",
+    text: `Latest build of JupyterLab2 with pre-configured debugger for Python and TensorFlow 2.1. Can be used with or without GPU.`,
     author: "Viacheslav Kovalevskyi",
-    lastUpdateDate: new Date(2020, 4, 12),
-    deploymentCode: "theia"
+    lastUpdateDate: new Date(2020, 4, 15),
+    deploymentCode: "jupyterlab2"
   },
   {
     id: "2",

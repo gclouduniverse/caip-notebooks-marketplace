@@ -1,0 +1,54 @@
+{
+  "builders": [
+    {
+      "type": "googlecompute",
+      "project_id": "caip-notebooks-marketplace-dev",
+      "source_image_project_id": "deeplearning-platform-release",
+      "source_image_family": "tf2-ent-2-1-cu101-notebooks",
+      "ssh_username": "packer",
+      "zone": "us-west1-b",
+      "image_family": "dlvm-tf2",
+      "image_name": "dlvm-tf2-{{user `image_id`}}",
+      "state_timeout": "15m",
+      "disk_size": "50",
+      "scopes": [
+        "https://www.googleapis.com/auth/cloud-platform"
+      ],
+      "metadata": {
+        "install-nvidia-driver": "True"
+      }
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "script": "update-jupyter2.sh",
+      "override": {
+        "googlecompute": {
+          "execute_command": "bash {{.Path}}"
+        }
+      }
+    },
+    {
+      "type": "shell",
+      "script": "install-debugger.sh",
+      "override": {
+        "googlecompute": {
+          "execute_command": "bash -l {{.Path}}"
+        }
+      }
+    },
+    {
+      "type": "shell",
+      "script": "../common/clean.sh",
+      "override": {
+        "googlecompute": {
+          "execute_command": "sudo bash {{.Path}}"
+        }
+      }
+    }
+  ],
+  "variables": {
+    "image_id": "{{env `ID`}}"
+  }
+}
