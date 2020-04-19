@@ -128,8 +128,7 @@ export class DeploymentClient extends AbstractGcpClient<DeploymentResponse> {
           autoDelete: true,
           deviceName: this.name,
           initializeParams: {
-            sourceImage:
-              this.sourceImage,
+            sourceImage: this.sourceImage,
             diskType:
               "projects/" +
               this.projectId +

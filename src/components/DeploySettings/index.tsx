@@ -5,8 +5,8 @@ import { ProjectsGcpClient, GceRegionsClient } from "../../common/gcp";
 import { GoogleCloudProject, GoogleProjectRegion } from "../../common/types";
 import { DeploymentClient } from "../../common/gcp/DeploymentClient";
 import { FastAiDeploymentClient } from "../../common/gcp/FastAiDeploymentClient";
-import {TheiaDeploymentClient} from "../../common/gcp/TheiaDeploymentClient";
-import {JupyterLab2DeploymentClient} from "../../common/gcp/JupyterLab2DeploymentClient";
+import { TheiaDeploymentClient } from "../../common/gcp/TheiaDeploymentClient";
+import { JupyterLab2DeploymentClient } from "../../common/gcp/JupyterLab2DeploymentClient";
 
 const { Option } = Select;
 const { Paragraph } = Typography;
@@ -154,28 +154,28 @@ const DeploySettings = React.memo(({ getDeploymentName }: Props) => {
         selectedRegion.name,
         selectedProject.projectNumber
       );
-    } else if(getDeploymentName() === "theia") {
-        client = new TheiaDeploymentClient(
-            selectedProject.projectId,
-            selectedZone,
-            deploymentName,
-            selectedRegion.name,
-            selectedProject.projectNumber
-        );
-    } else if(getDeploymentName() === "jupyterlab2") {
-        client = new JupyterLab2DeploymentClient(
-            selectedProject.projectId,
-            selectedZone,
-            deploymentName,
-            selectedRegion.name,
-            selectedProject.projectNumber
-        );
+    } else if (getDeploymentName() === "theia") {
+      client = new TheiaDeploymentClient(
+        selectedProject.projectId,
+        selectedZone,
+        deploymentName,
+        selectedRegion.name,
+        selectedProject.projectNumber
+      );
+    } else if (getDeploymentName() === "jupyterlab2") {
+      client = new JupyterLab2DeploymentClient(
+        selectedProject.projectId,
+        selectedZone,
+        deploymentName,
+        selectedRegion.name,
+        selectedProject.projectNumber
+      );
     } else {
-        setState({
-            ...state,
-            deployProgressState: DeployProgessState.Error
-        });
-        throw new Error(`deployment name is unknown: ${getDeploymentName()}`);
+      setState({
+        ...state,
+        deployProgressState: DeployProgessState.Error
+      });
+      throw new Error(`deployment name is unknown: ${getDeploymentName()}`);
     }
     client.deploy().then(isSuccess => {
       setState({

@@ -11,9 +11,7 @@
       "image_name": "theia-ide-{{user `image_id`}}",
       "state_timeout": "15m",
       "disk_size": "50",
-      "scopes": [
-        "https://www.googleapis.com/auth/cloud-platform"
-      ]
+      "scopes": ["https://www.googleapis.com/auth/cloud-platform"]
     }
   ],
   "provisioners": [

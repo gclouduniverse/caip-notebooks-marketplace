@@ -18,16 +18,16 @@ export class TheiaDeploymentClient extends DeploymentClient {
       "projects/deeplearning-platform-release/global/images/family/common-container-notebooks",
       "gs://marketplace-public-files/theia/startup-script.sh",
       "",
-        [
-            {
-                key: "container",
-                value: "theiaide/theia:next"
-            },
-            {
-                key: "agent-health-check-path",
-                value: "/"
-            }
-        ]
+      [
+        {
+          key: "container",
+          value: "theiaide/theia:next"
+        },
+        {
+          key: "agent-health-check-path",
+          value: "/"
+        }
+      ]
     );
   }
 }
