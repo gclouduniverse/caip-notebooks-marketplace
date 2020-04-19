@@ -21,8 +21,7 @@ export class JupyterLab2DeploymentClient extends DeploymentClient {
       [
         {
           key: "container",
-          value:
-            "b0noi/tf2-jupyterlab2-gpu"
+          value: "b0noi/tf2-jupyterlab2-gpu"
         },
         {
           key: "install-nvidia-driver",
