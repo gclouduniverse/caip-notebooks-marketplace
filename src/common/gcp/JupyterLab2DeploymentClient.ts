@@ -19,14 +19,15 @@ export class JupyterLab2DeploymentClient extends DeploymentClient {
       "",
       "",
       [
-          {
-              "key": "container",
-              "value": "docker.pkg.github.com/gclouduniverse/caip-notebooks-marketplace/tf2-jupyterlab2"
-          },
-          {
-              "key": "install-nvidia-driver",
-              "value": "True"
-          }
+        {
+          key: "container",
+          value:
+            "b0noi/tf2-jupyterlab2-gpu"
+        },
+        {
+          key: "install-nvidia-driver",
+          value: "True"
+        }
       ]
     );
   }

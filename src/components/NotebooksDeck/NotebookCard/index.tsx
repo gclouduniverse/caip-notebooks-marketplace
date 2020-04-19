@@ -1,6 +1,9 @@
 import React, { useCallback } from "react";
-import { Card, Typography, Button } from "antd";
+import {Card, Typography, Button, Col, Row} from "antd";
 import { NotebookProps } from "../../../common/types";
+import { Anchor } from 'antd';
+
+const { Link } = Anchor;
 
 type Props = NotebookProps & {
   setDeploySettingsState: (isVisible: boolean, deploymentName: string) => void;
@@ -15,7 +18,8 @@ const NotebookCard: React.FC<Props> = (props: Props) => {
     author,
     lastUpdateDate,
     deploymentCode,
-    setDeploySettingsState
+    setDeploySettingsState,
+      readMore
   } = props;
 
   const handleOnDeployClick = useCallback(() => {
@@ -25,7 +29,12 @@ const NotebookCard: React.FC<Props> = (props: Props) => {
   return (
     <Card cover={<img alt={title} src={imgSrc} />}>
       <Typography.Title level={3}>{title}</Typography.Title>
-      <Typography.Paragraph>{text}</Typography.Paragraph>
+        <Typography.Paragraph>{text}</Typography.Paragraph>
+        <Typography.Paragraph>
+            <Anchor>
+                <Link title="Read More" href={readMore}/>
+            </Anchor>
+        </Typography.Paragraph>
       <Typography.Paragraph>
         <Typography.Text strong>Author:</Typography.Text> {author}
       </Typography.Paragraph>

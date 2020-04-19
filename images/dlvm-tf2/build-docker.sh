@@ -2,5 +2,5 @@
 
 # Ideally just use Docker functionality from IDEA
 
-docker build . -t docker.pkg.github.com/gclouduniverse/caip-notebooks-marketplace/tf2-jupyterlab2
-docker push docker.pkg.github.com/gclouduniverse/caip-notebooks-marketplace/tf2-jupyterlab2
+docker build . -t b0noi/tf2-jupyterlab2-gpu
+docker push b0noi/tf2-jupyterlab2-gpu
